@@ -12,7 +12,7 @@
 
 ## قائمة المهام
 
-- [ ] **مهمة 1 — إعداد هيكل المشروع الأساسي**
+- [x] **مهمة 1 — إعداد هيكل المشروع الأساسي**
   إنشاء كل المجلدات والملفات الفارغة حسب الهيكل الموثّق بـ `FPL_AI_Project_Spec.md` (قسم "هيكل المجلدات"). إنشاء `requirements.txt` أولي (`requests`, `beautifulsoup4`, `python-dotenv`, `pulp`). إنشاء `.gitignore` (يستثني `.env`، `__pycache__`، إلخ).
   📄 مرجع: `FPL_AI_Project_Spec.md`
 

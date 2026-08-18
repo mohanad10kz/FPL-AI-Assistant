@@ -1,0 +1,47 @@
+# ===== أسرار وبيانات حساسة =====
+.env
+*.env.local
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ===== Virtual Environments =====
+venv/
+.venv/
+env/
+ENV/
+.virtualenv/
+
+# ===== Testing & Coverage =====
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# ===== IDE & OS =====
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ===== Project specific =====
+data/cache/*.json
+data/history/*.json
+data/state/transfer_queue.json
+
+# ===== Logs =====
+*.log
+logs/
