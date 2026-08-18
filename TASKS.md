@@ -16,7 +16,7 @@
   إنشاء كل المجلدات والملفات الفارغة حسب الهيكل الموثّق بـ `FPL_AI_Project_Spec.md` (قسم "هيكل المجلدات"). إنشاء `requirements.txt` أولي (`requests`, `beautifulsoup4`, `python-dotenv`, `pulp`). إنشاء `.gitignore` (يستثني `.env`، `__pycache__`، إلخ).
   📄 مرجع: `FPL_AI_Project_Spec.md`
 
-- [ ] **مهمة 2 — بناء `config.py`**
+- [x] **مهمة 2 — بناء `config.py`**
   تنفيذ كل ما هو موثّق، شامل ملف `.env.example`.
   📄 مرجع: `01_config.md`
 
