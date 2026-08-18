@@ -24,7 +24,7 @@
   تنفيذ كل الدوال الخمس الموثّقة مع معالجة الأخطاء الإلزامية.
   📄 مرجع: `02_fpl_client.md`
 
-- [ ] **مهمة 4 — بناء `squad_optimizer.py`**
+- [x] **مهمة 4 — بناء `squad_optimizer.py`**
   تنفيذ نموذج Linear Programming بـ PuLP لبناء تشكيلة الجولة الأولى.
   📄 مرجع: `03_squad_optimizer.md`
 
