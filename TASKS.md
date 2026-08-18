@@ -36,7 +36,7 @@
   تنفيذ جلب ومقارنة تشكيلات أفضل N مدير.
   📄 مرجع: `05_top_managers.md`
 
-- [ ] **مهمة 7 — بناء `transfer_planner.py`**
+- [x] **مهمة 7 — بناء `transfer_planner.py`**
   تنفيذ منطق طابور التبديلات الدائم مع الحفظ/الاسترجاع من `data/state/`.
   📄 مرجع: `06_transfer_planner.md`
 
