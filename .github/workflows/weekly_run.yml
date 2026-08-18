@@ -1,0 +1,78 @@
+name: FPL Weekly Report
+
+on:
+  # ── جدولة تلقائية: كل جمعة الساعة 16:00 UTC (قبل الديدلاين بـ4-6 ساعات في العادة)
+  # ⚠️ الديدلاين يتغيّر أسبوعياً — عدّل الوقت يدوياً إذا لاحظت انحرافاً
+  schedule:
+    - cron: "0 16 * * 5"
+
+  # ── تشغيل يدوي من تبويب Actions للاختبار قبل الاعتماد على الجدولة التلقائية
+  workflow_dispatch:
+    inputs:
+      debug_mode:
+        description: "تشغيل بوضع التنقيح (يطبع بيانات إضافية)"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+
+permissions:
+  contents: write   # مطلوب لعملية git push في نهاية التشغيل
+
+jobs:
+  run-fpl-assistant:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15   # منع التشغيل المفتوح لو علق بشكل غير متوقع
+
+    steps:
+      # ── الخطوة 1: سحب الكود ─────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # نحتاج التاريخ الكامل لعملية git push
+
+      # ── الخطوة 2: إعداد Python ──────────────────────────────────────────
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"       # تسريع التثبيت بالتشغيلات التالية
+
+      # ── الخطوة 3: تثبيت المتطلبات ───────────────────────────────────────
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # ── الخطوة 4: تشغيل المساعد ─────────────────────────────────────────
+      - name: Run FPL AI Assistant
+        env:
+          FPL_TEAM_ID: ${{ secrets.FPL_TEAM_ID }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          # INJURY_SOURCE_URL و TOP_N_MANAGERS اختياريان (لهما قيم افتراضية في config.py)
+          # يمكن إضافتهما كـ Secrets لو أردت تعديلهما بدون تغيير الكود
+        run: |
+          echo "=== FPL AI Assistant — بدء التشغيل ==="
+          echo "الوقت: $(date -u)"
+          python src/main.py
+          echo "=== انتهى التشغيل بنجاح ==="
+
+      # ── الخطوة 5: حفظ ملفات الحالة والأرشيف (ضروري لتراكم الطابور) ─────
+      # ⚠️ هذه الخطوة حرجة: بيئة GitHub Actions مؤقتة — بدون هذا الـ commit
+      # سيُفقد transfer_queue.json بين كل تشغيل وآخر ويتعطل منطق التخطيط متعدد الجولات
+      - name: Commit updated state and history files
+        run: |
+          git config user.name "fpl-bot[bot]"
+          git config user.email "fpl-bot@users.noreply.github.com"
+
+          # إضافة ملفات الحالة والأرشيف فقط (لا نضيف .env أو أي ملفات حساسة)
+          git add data/state/ data/history/ || true
+
+          # الـ commit يفشل برمز خروج 1 لو لا توجد تغييرات — نتجاهله
+          git commit -m "chore: update FPL state after GW run [skip ci]" || echo "No state changes to commit"
+
+          # push آمن مع retry بسيط
+          git push origin HEAD || git push --force-with-lease origin HEAD
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
