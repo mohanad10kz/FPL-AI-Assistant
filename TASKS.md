@@ -28,7 +28,7 @@
   تنفيذ نموذج Linear Programming بـ PuLP لبناء تشكيلة الجولة الأولى.
   📄 مرجع: `03_squad_optimizer.md`
 
-- [ ] **مهمة 5 — بناء `injuries_source.py`**
+- [x] **مهمة 5 — بناء `injuries_source.py`**
   تنفيذ المصدر الأساسي (FPL نفسه) أولاً، ثم المصدر الخارجي كطبقة إضافية اختيارية.
   📄 مرجع: `04_injuries_source.md`
 
