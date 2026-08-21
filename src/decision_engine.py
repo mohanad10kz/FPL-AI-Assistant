@@ -14,6 +14,7 @@ decision_engine.py — قلب المشروع.
 """
 
 import logging
+from pathlib import Path
 from typing import Optional
 
 from squad_optimizer import _compute_scores, _normalize
@@ -248,6 +249,7 @@ def run_decision_engine(
     bootstrap_data: dict,
     injury_statuses: dict,
     manager_history: dict,
+    queue_file: Path,
     consensus_data: Optional[dict] = None,
     total_top_n: int = 10,
 ) -> dict:
@@ -261,6 +263,7 @@ def run_decision_engine(
         bootstrap_data: من get_bootstrap_static()
         injury_statuses: من injuries_source.get_all_injury_statuses()
         manager_history: من get_manager_history()
+        queue_file: مسار ملف حالة transfer_planner الخاص بهذا الفريق
         consensus_data: من top_managers.calculate_consensus() (None في GW1)
         total_top_n: عدد المدراء بالإجماع
 
@@ -370,6 +373,7 @@ def run_decision_engine(
         new_candidates=forced_candidates,
         available_free_transfers=available_free_transfers,
         current_gameweek=gameweek,
+        queue_file=queue_file,
         injury_statuses=injury_statuses,
     )
 
