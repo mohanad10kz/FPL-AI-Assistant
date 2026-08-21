@@ -249,7 +249,7 @@ def run_decision_engine(
     bootstrap_data: dict,
     injury_statuses: dict,
     manager_history: dict,
-    queue_file: Path,
+    queue_file: Optional[Path] = None,
     consensus_data: Optional[dict] = None,
     total_top_n: int = 10,
 ) -> dict:

@@ -146,6 +146,11 @@ def calculate_priority_score(candidate: dict) -> float:
     return PRIORITY_PERFORMANCE_ONLY
 
 
+# المسار الافتراضي لملف الحالة
+STATE_DIR = Path(__file__).parent.parent / "data" / "state"
+QUEUE_FILE = STATE_DIR / "transfer_queue.json"
+
+
 # ───────────────────────────────────────────────────────────────────────────
 # 3. الدالة الأساسية
 # ───────────────────────────────────────────────────────────────────────────
@@ -154,11 +159,12 @@ def update_transfer_queue(
     new_candidates: list[dict],
     available_free_transfers: int,
     current_gameweek: int,
-    queue_file: Path,
+    queue_file: Optional[Path] = None,
     injury_statuses: Optional[dict] = None,
 ) -> dict:
     """
     يدمج المرشحين الجدد مع المعلّقين القدامى، ويقرر من يُنفَّذ الآن.
+
 
     الخوارزمية (من spec 06_transfer_planner.md):
     1. اقرأ pending_candidates من الجولة الماضية.
@@ -184,6 +190,9 @@ def update_transfer_queue(
             "penalty_transfer": None | dict  # تحويل -4 مقترح (استثنائي)
         }
     """
+    if queue_file is None:
+        queue_file = QUEUE_FILE
+
     # ── 1. قراءة الطابور الحالي ─────────────────────────────────────────────
     queue_data = load_queue(queue_file)
     old_pending = queue_data.get("pending_candidates", [])
