@@ -312,3 +312,36 @@ def get_fixtures(future_only: bool = False) -> list[dict]:
     logger.info("✅ تم جلب %d مباراة من جدول المباريات", len(data))
     return data
 
+
+def get_player_gameweek_points(player_id: int, gameweek: int) -> int:
+    """
+    يجلب النقاط الفعلية التي حققها لاعب معين في جولة محددة.
+
+    Args:
+        player_id: معرّف اللاعب (element ID)
+        gameweek: رقم الجولة
+
+    Returns:
+        إجمالي النقاط (int) في تلك الجولة، أو 0 صراحة إذا لم يلعب أو لم يحقق نقاطاً (لا None ولا خطأ).
+    """
+    if not player_id:
+        return 0
+
+    url = f"{FPL_BASE_URL}/element-summary/{player_id}/"
+    logger.debug("📥 جلب ملخص أداء اللاعب ID=%d...", player_id)
+    try:
+        data = _get(url)
+    except Exception as e:
+        logger.warning("⚠️ تعذّر جلب ملخص أداء اللاعب ID=%d للجولة GW%d: %s", player_id, gameweek, e)
+        return 0
+
+    history = data.get("history", [])
+    matches = [m for m in history if m.get("round") == gameweek]
+    if not matches:
+        return 0
+
+    # في الجولات العادية مباراة واحدة، بالجولات المضاعفة (DGW) قد تكون أكثر من مباراة
+    total_points = sum(int(m.get("total_points", 0)) for m in matches)
+    return total_points
+
+
