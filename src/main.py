@@ -16,7 +16,7 @@ import json
 import logging
 import traceback
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 
 # ─── إعداد Logging قبل أي استيراد ────────────────────────────────────────────
 logging.basicConfig(
@@ -36,6 +36,40 @@ DATA_DIR = src_dir.parent / "data"
 HISTORY_DIR = DATA_DIR / "history"
 STATE_DIR = DATA_DIR / "state"
 INITIAL_SQUAD_FLAG = STATE_DIR / "initial_squad_built.flag"
+LAST_SENT_GW_FILE = STATE_DIR / "last_sent_gw.json"
+
+# ─── حد الفحص اليومي: أرسل التقرير فقط لو تبقّى أقل من هذا على الديدلاين ──
+DEADLINE_WINDOW_HOURS = 24.0
+
+
+def _load_last_sent_gw() -> int:
+    """
+    يقرأ رقم آخر جولة أُرسل تقريرها من ملف الحالة.
+    يُرجع 0 لو الملف غير موجود (أول تشغيل).
+    """
+    try:
+        if LAST_SENT_GW_FILE.exists():
+            with open(LAST_SENT_GW_FILE, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                last_gw = int(data.get("last_sent_gw", 0))
+                logger.info("آخر جولة مُرسَل تقريرها: GW%d", last_gw)
+                return last_gw
+    except (json.JSONDecodeError, OSError, ValueError) as e:
+        logger.warning("⚠️ خطأ في قراءة last_sent_gw.json — سيُعامَل كأول تشغيل: %s", e)
+    return 0
+
+
+def _save_last_sent_gw(gameweek: int) -> None:
+    """
+    يحفظ رقم الجولة الأخيرة المُرسَل تقريرها لتفادي التكرار.
+    """
+    try:
+        STATE_DIR.mkdir(parents=True, exist_ok=True)
+        with open(LAST_SENT_GW_FILE, "w", encoding="utf-8") as f:
+            json.dump({"last_sent_gw": gameweek}, f, ensure_ascii=False, indent=2)
+        logger.info("تم حفظ last_sent_gw = GW%d", gameweek)
+    except OSError as e:
+        logger.error("❌ فشل حفظ last_sent_gw.json: %s", e)
 
 
 def _send_error_notification(
@@ -293,6 +327,30 @@ def main():
 
         logger.info("الجولة الحالية/القادمة: GW%d", current_gw)
 
+        # ─── الخطوة 3أ: فحص الديدلاين — هل حان وقت الإرسال؟ ─────────────────
+        from fpl_client import get_next_gameweek_deadline
+        deadline_utc = get_next_gameweek_deadline(bootstrap_data)
+
+        if deadline_utc is not None:
+            now_utc = datetime.now(timezone.utc)
+            hours_remaining = (deadline_utc - now_utc).total_seconds() / 3600
+
+            if hours_remaining > DEADLINE_WINDOW_HOURS:
+                logger.info(
+                    "⏳ لم يحن وقت الإرسال بعد — متبقٍّ %.1f ساعة على ديدلاين GW%d "
+                    "(الحد المطلوب: %g ساعة). إيقاف التشغيل.",
+                    hours_remaining, current_gw, DEADLINE_WINDOW_HOURS
+                )
+                sys.exit(0)  # خروج طبيعي — ليس خطأً
+            else:
+                logger.info(
+                    "✅ الديدلاين قريب — متبقٍّ %.1f ساعة على GW%d. المتابعة بالتحليل.",
+                    hours_remaining, current_gw
+                )
+        else:
+            # لو فشل استخراج الديدلاين — نكمل بدون فحص (أفضل من التوقف)
+            logger.warning("⚠️ تعذّر استخراج الديدلاين — سيتم التشغيل بدون فحص الوقت.")
+
         if current_gw == 1 and not INITIAL_SQUAD_FLAG.exists():
             # الجولة الأولى — بناء تشكيلة أولية (مشتركة — لا تكرار لكل فريق)
             logger.info("GW1 — مسار التشكيلة الأولية")
@@ -340,6 +398,15 @@ def main():
         _send_error_notification(bot_token, chat_id, error_msg, current_gw)
         sys.exit(1)
 
+    # ─── الخطوة 5أ: فحص last_sent_gw — هل أُرسل تقرير هذه الجولة مسبقاً؟ ──
+    last_gw = _load_last_sent_gw()
+    if current_gw <= last_gw:
+        logger.info(
+            "ℹ️ تقرير GW%d أُرسل مسبقاً (last_sent_gw=%d) — لا داعي للإرسال مجدداً. إيقاف.",
+            current_gw, last_gw
+        )
+        sys.exit(0)  # خروج طبيعي — ليس خطأً
+
     # ─── الخطوة 6: حلقة الفرق — كل فريق بشكل مستقل ─────────────────────────
     logger.info(
         "=== بدء معالجة %d فريق (GW%d) ===",
@@ -361,7 +428,7 @@ def main():
         )
         results[team_name] = "✅ نجاح" if success else "❌ فشل"
 
-    # ─── ملخص نهائي ──────────────────────────────────────────────────────────
+    # ─── ملخص نهائي + حفظ last_sent_gw ──────────────────────────────────────
     logger.info("=== ملخص التشغيل — GW%d ===", current_gw)
     for name, status in results.items():
         logger.info("  %s: %s", name, status)
@@ -371,6 +438,8 @@ def main():
         logger.error("❌ فشل معالجة: %s", ", ".join(failed))
         sys.exit(1)
     else:
+        # نحفظ last_sent_gw فقط لو نجح الإرسال لكل الفرق
+        _save_last_sent_gw(current_gw)
         logger.info("=== تم إنهاء التشغيل بنجاح لجميع الفرق ===")
 
 
