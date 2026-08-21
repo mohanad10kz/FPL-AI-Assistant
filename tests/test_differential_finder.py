@@ -232,6 +232,59 @@ class TestDifferentialFinder(unittest.TestCase):
         self.assertIn("PerfectDiff1", names)
         self.assertIn("PerfectDiff2", names)
 
+    def test_report_builder_with_differentials(self):
+        from report_builder import build_report_text
+        diffs = [
+            {
+                "name": "Eze",
+                "position": "MID",
+                "price": 6.8,
+                "ownership": 6.2,
+                "form": 6.5,
+                "next_fixtures_difficulty": "سهلة",
+                "reason": "فورم ممتاز (6.5) + مباريات قادمة سهلة جداً",
+            }
+        ]
+        decision_data = {
+            "gameweek": 3,
+            "forced_transfers": [],
+            "still_pending": [],
+            "flagged_players": [],
+            "captain": "Salah",
+            "vice_captain": "Haaland",
+            "chip_suggestion": {},
+            "bank_after": 1.5,
+            "free_transfers_remaining": 1,
+            "transfers_cost": 0,
+            "differential_suggestions": diffs,
+        }
+        report = build_report_text(decision_data, team_name="فريق التجربة")
+        self.assertIn("لاعبون يستحقون المتابعة", report)
+        self.assertIn("Eze", report)
+        self.assertIn("MID", report)
+        self.assertIn("£6.8م", report)
+        self.assertIn("امتلاك: 6.2%", report)
+        self.assertIn("فورم: 6.5", report)
+
+    def test_report_builder_without_differentials(self):
+        from report_builder import build_report_text
+        decision_data = {
+            "gameweek": 3,
+            "forced_transfers": [],
+            "still_pending": [],
+            "flagged_players": [],
+            "captain": "Salah",
+            "vice_captain": "Haaland",
+            "chip_suggestion": {},
+            "bank_after": 1.5,
+            "free_transfers_remaining": 1,
+            "transfers_cost": 0,
+            "differential_suggestions": [],
+        }
+        report = build_report_text(decision_data, team_name="فريق التجربة")
+        self.assertNotIn("لاعبون يستحقون المتابعة", report)
+
 
 if __name__ == "__main__":
     unittest.main()
+

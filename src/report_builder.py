@@ -115,6 +115,18 @@ def build_report_text(decision_data: dict, team_name: str = "", team_id: int = 0
         financial_lines.append("❗ *خصم نقاط متوقع:* لا يوجد")
     sections.append("\n".join(financial_lines))
 
+    # ── قسم 7: لاعبون يستحقون المتابعة (Differentials — اختياري) ──────────────
+    differential_suggestions = decision_data.get("differential_suggestions", [])
+    if differential_suggestions:
+        diff_lines = ["💡 *لاعبون يستحقون المتابعة (اختياري، لا يستهلك تحويلاتك):*"]
+        for p in differential_suggestions:
+            diff_lines.append(
+                f"  • *{p.get('name', '؟')}* ({p.get('position', 'MID')}) | £{p.get('price', 0.0):.1f}م | امتلاك: {p.get('ownership', 0.0):.1f}% | فورم: {p.get('form', 0.0):.1f}"
+            )
+            if p.get("reason"):
+                diff_lines.append(f"    _السبب: {p['reason']}_")
+        sections.append("\n".join(diff_lines))
+
     # ── تذييل إلزامي ─────────────────────────────────────────────────────────
     sections.append("─" * 30)
     sections.append(
