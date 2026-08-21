@@ -32,18 +32,45 @@ class Config:
         """تحميل والتحقق من جميع المتغيرات البيئية."""
         errors = []
 
-        # ─── FPL_TEAM_ID (إلزامي، رقمي) ───────────────────────────────────
-        team_id_raw = os.getenv("FPL_TEAM_ID", "").strip()
-        if not team_id_raw:
+        # ─── FPL_TEAM_IDS (إلزامي، قائمة أرقام مفصولة بفاصلة) ────────────
+        team_ids_raw = os.getenv("FPL_TEAM_IDS", "").strip()
+        if not team_ids_raw:
             errors.append(
-                "FPL_TEAM_ID مفقود — أضف رقم فريقك في ملف .env أو GitHub Secrets"
-            )
-        elif not team_id_raw.isdigit():
-            errors.append(
-                f"FPL_TEAM_ID يجب أن يكون رقماً صحيحاً، القيمة الحالية: '{team_id_raw}'"
+                "FPL_TEAM_IDS مفقود — أضف أرقام فرقك مفصولة بفاصلة في .env أو GitHub Secrets"
+                " (مثال: FPL_TEAM_IDS=123456,789012)"
             )
         else:
-            self.fpl_team_id: int = int(team_id_raw)
+            parsed_ids = []
+            for part in team_ids_raw.split(","):
+                part = part.strip()
+                if not part.isdigit():
+                    errors.append(
+                        f"FPL_TEAM_IDS يحوي قيمة غير رقمية: '{part}' — يجب أن تكون كل القيم أرقاماً صحيحة"
+                    )
+                    break
+                parsed_ids.append(int(part))
+            else:
+                if not parsed_ids:
+                    errors.append("FPL_TEAM_IDS فارغ — أضف رقم فريق واحد على الأقل")
+                else:
+                    self.fpl_team_ids: list[int] = parsed_ids
+
+        # ─── FPL_TEAM_NAMES (اختياري، قائمة أسماء مفصولة بفاصلة) ─────────
+        team_names_raw = os.getenv("FPL_TEAM_NAMES", "").strip()
+        if team_names_raw:
+            parsed_names = [n.strip() for n in team_names_raw.split(",") if n.strip()]
+            # التحقق من تطابق عدد الأسماء مع عدد الـ IDs (فقط لو لم يكن هناك خطأ بالـ IDs)
+            if hasattr(self, "fpl_team_ids") and len(parsed_names) != len(self.fpl_team_ids):
+                errors.append(
+                    f"FPL_TEAM_NAMES يحوي {len(parsed_names)} اسم بينما FPL_TEAM_IDS يحوي"
+                    f" {len(self.fpl_team_ids)} رقم — يجب أن يتطابقا في العدد"
+                )
+            else:
+                self.fpl_team_names: list[str] = parsed_names
+        else:
+            # قيمة افتراضية: "فريق {team_id}" لكل ID
+            if hasattr(self, "fpl_team_ids"):
+                self.fpl_team_names = [f"فريق {tid}" for tid in self.fpl_team_ids]
 
         # ─── TELEGRAM_BOT_TOKEN (إلزامي، يطابق <digits>:<string>) ───────────
         bot_token_raw = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
@@ -107,13 +134,16 @@ class Config:
                 f"مرجع: انسخ .env.example إلى .env وأضف قيمك الحقيقية."
             )
 
-        logger.info("✅ Config loaded successfully (team_id=%s, top_n=%s)",
-                    self.fpl_team_id, self.top_n_managers)
+        logger.info(
+            "✅ Config loaded successfully (team_ids=%s, team_names=%s, top_n=%s)",
+            self.fpl_team_ids, self.fpl_team_names, self.top_n_managers
+        )
 
     def __repr__(self) -> str:
         return (
             f"Config("
-            f"fpl_team_id={self.fpl_team_id}, "
+            f"fpl_team_ids={self.fpl_team_ids}, "
+            f"fpl_team_names={self.fpl_team_names}, "
             f"top_n_managers={self.top_n_managers}, "
             f"injury_source_url='{self.injury_source_url}', "
             f"telegram_chat_id='{self.telegram_chat_id}')"
