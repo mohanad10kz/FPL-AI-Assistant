@@ -207,6 +207,7 @@ def _process_single_team(
     injury_data: dict,
     consensus_data,
     top_n: int,
+    fixtures_data: Optional[list[dict]],
     bot_token: str,
     chat_id: str,
 ) -> bool:
@@ -249,6 +250,24 @@ def _process_single_team(
             consensus_data=consensus_data,
             total_top_n=top_n,
         )
+
+        # ─── خطوة إضافية مستقلة: اكتشاف الـ Differentials ──────────────────
+        # ⚠️ قيد تصميم حرج: هذا القسم معلوماتي واختياري بالكامل.
+        # لا يمرر أي لاعب لـ transfer_planner ولا يؤثر إطلاقاً على
+        # forced_transfers أو عدد التحويلات المقترحة أو رصيد التحويلات المجانية.
+        from differential_finder import find_differentials
+        logger.info("%s مسح الـ Differentials (اختياري ومعلوماتي)...", team_label)
+        my_squad_ids = {p.get("element") for p in my_picks if p.get("element")}
+        diff_suggestions = find_differentials(
+            all_players=bootstrap_data.get("elements", []),
+            my_squad_ids=my_squad_ids,
+            consensus_data=consensus_data,
+            top_n_total=top_n,
+            injury_statuses=injury_data,
+            fixtures_data=fixtures_data,
+            current_gw=current_gw,
+        )
+        decision["differential_suggestions"] = diff_suggestions
 
         # ─── بناء التقرير وإرساله ─────────────────────────────────────────────
         from report_builder import build_report_text
@@ -311,10 +330,17 @@ def main():
 
     try:
         # ─── الخطوة 2: جلب البيانات المشتركة (مرة واحدة لجميع الفرق) ─────────
-        from fpl_client import get_bootstrap_static, get_current_gameweek
-        logger.info("الخطوة 2: جلب bootstrap-static (مشترك لجميع الفرق)...")
+        from fpl_client import get_bootstrap_static, get_current_gameweek, get_fixtures
+        logger.info("الخطوة 2: جلب bootstrap-static وجدول المباريات (مشترك لجميع الفرق)...")
         bootstrap_data = get_bootstrap_static()
         current_gw = get_current_gameweek(bootstrap_data)
+
+        fixtures_data = None
+        try:
+            fixtures_data = get_fixtures()
+            logger.info("تم جلب %d مباراة من جدول المباريات (مشترك)", len(fixtures_data))
+        except Exception as e:
+            logger.warning("⚠️ تعذّر جلب جدول المباريات: %s — سيتم التقدير بـ FDR محايد", e)
 
         # ─── الخطوة 3: تحديد الحالة العامة ──────────────────────────────────
         if current_gw is None:
@@ -423,6 +449,7 @@ def main():
             injury_data=injury_data,
             consensus_data=consensus_data,
             top_n=top_n,
+            fixtures_data=fixtures_data,
             bot_token=bot_token,
             chat_id=chat_id,
         )
