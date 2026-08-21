@@ -262,9 +262,9 @@ class TestDifferentialFinder(unittest.TestCase):
         self.assertIn("لاعبون يستحقون المتابعة", report)
         self.assertIn("Eze", report)
         self.assertIn("MID", report)
-        self.assertIn("£6.8م", report)
-        self.assertIn("امتلاك: 6.2%", report)
-        self.assertIn("فورم: 6.5", report)
+        self.assertIn("£6.8M", report)
+        self.assertIn("الامتلاك: 6.2%", report)
+        self.assertIn("الفورم: 6.5", report)
 
     def test_report_builder_without_differentials(self):
         from report_builder import build_report_text

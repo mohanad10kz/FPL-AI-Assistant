@@ -168,9 +168,10 @@ def send_test_message(bot_token: str, chat_id: str) -> bool:
         True لو وصلت رسالة الاختبار بنجاح
     """
     test_text = (
-        "🤖 *FPL AI Assistant — رسالة اختبار*\n\n"
-        "✅ الإعداد صحيح\\! البوت يعمل بشكل طبيعي\\.\n\n"
-        "_هذه رسالة اختبار تلقائية — يمكنك تجاهلها\\._"
+        "🤖 *FPL AI Assistant — رسالة اختبار*\n"
+        "━━━━━━━━━━━━━━━━━━━━\n\n"
+        "✅ الإعداد صحيح! البوت يعمل بشكل طبيعي وجاهز للتشغيل.\n\n"
+        "_هذه رسالة اختبار تلقائية — يمكنك تجاهلها._"
     )
     logger.info("إرسال رسالة اختبار إلى chat_id=%s", chat_id)
     return send_message(bot_token, chat_id, test_text)

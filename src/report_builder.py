@@ -3,6 +3,7 @@ report_builder.py — تحويل مخرجات decision_engine لنص تقرير 
 
 النص جاهز للإرسال مباشرة عبر Telegram Bot API (Markdown).
 القاعدة: التوصيات صيغة اقتراح لا أمر. لا أقسام فارغة بالتقرير.
+التصميم: منسّق بعناية للقراءة من اليمين لليسار (RTL) بدون تشوهات BiDi.
 """
 
 import logging
@@ -11,13 +12,12 @@ logger = logging.getLogger(__name__)
 
 # ── حد طول الرسالة بتيليجرام (4096 حرف) ───────────────────────────────────
 TELEGRAM_MAX_LENGTH = 4096
+DIVIDER = "━━━━━━━━━━━━━━━━━━━━"
 
 
 def build_report_text(decision_data: dict, team_name: str = "", team_id: int = 0) -> str:
     """
     يبني نص التقرير الكامل من مخرجات decision_engine.run_decision_engine().
-
-    الترتيب محدد بـ 08_report_builder.md — لا تغيّر الترتيب.
 
     Args:
         decision_data: الكائن النهائي من decision_engine.run_decision_engine()
@@ -45,49 +45,52 @@ def build_report_text(decision_data: dict, team_name: str = "", team_id: int = 0
 
     # ── رأس التقرير ──────────────────────────────────────────────────────────
     if display_name:
-        sections.append(f"📊 *\\[{display_name}\\] تقرير الجولة \\#{gw}*")
+        sections.append(f"📊 *تقرير الجولة #{gw}*\n👤 *الفريق:* {display_name}\n{DIVIDER}")
     else:
-        sections.append(f"📊 *تقرير الجولة \\#{gw}*")
-    sections.append("─" * 30)
+        sections.append(f"📊 *تقرير الجولة #{gw}*\n{DIVIDER}")
 
     # ── قسم 1: التحويلات المنفَّذة الآن ──────────────────────────────────────
     if forced_transfers:
-        header = f"✅ *التحويلات المقترحة الآن ({len(forced_transfers)}):*"
+        header = f"🔄 *التحويلات المقترحة ({len(forced_transfers)}):*"
         lines = [header]
         for t in forced_transfers:
             cost_note = ""
             if t.get("cost_in_points", 0) < 0:
-                cost_note = f" ⚠️ _خصم {abs(t['cost_in_points'])} نقطة_"
-            lines.append(
-                f"  • إخراج: *{t.get('out', '؟')}* ← إدخال: *{t.get('in', '؟')}*{cost_note}"
-            )
+                cost_note = f" ⚠️ _(خصم {abs(t['cost_in_points'])} نقطة)_"
+            lines.append(f"• 🔻 خروج: *{t.get('out', '؟')}*")
+            lines.append(f"  🔺 دخول: *{t.get('in', '؟')}*{cost_note}")
             if t.get("reason"):
-                lines.append(f"    _السبب: {t['reason']}_")
+                lines.append(f"  📌 السبب: _{t['reason']}_")
         sections.append("\n".join(lines))
 
     # ── قسم 2: التحويلات المؤجلة ─────────────────────────────────────────────
     if still_pending:
-        lines = [f"⏳ *تحويلات مؤجَّلة — سيُعاد تقييمها الجولة القادمة ({len(still_pending)}):*"]
+        lines = [f"⏳ *تحويلات مؤجَّلة للجولة القادمة ({len(still_pending)}):*"]
         for t in still_pending:
-            lines.append(f"  • *{t.get('out', '؟')}*: {t.get('reason', '')}")
-        lines.append("  _\\(لا داعي لأي خصم نقاط الآن — سيُعاد تقييمها بالجولة القادمة\\)_")
+            lines.append(f"• 👤 *{t.get('out', '؟')}*")
+            if t.get("reason"):
+                lines.append(f"  📌 السبب: _{t['reason']}_")
+        lines.append("  _(لا داعي لأي خصم نقاط الآن — سيُعاد تقييمها بالجولة القادمة)_")
         sections.append("\n".join(lines))
 
     # ── قسم 3: لاعبون للمراجعة اليدوية ──────────────────────────────────────
     if flagged_players:
-        lines = ["⚠️ *لاعبون يحتاجون مراجعتك \\(إشارة غير مؤكدة — القرار لك\\):*"]
+        lines = [f"⚠️ *لاعبون يحتاجون مراجعتك ({len(flagged_players)}):*"]
         for p in flagged_players:
-            lines.append(f"  • *{p.get('name', '؟')}*: {p.get('reason', '')}")
+            lines.append(f"• 👤 *{p.get('name', '؟')}*")
+            if p.get("reason"):
+                lines.append(f"  📌 الملاحظة: _{p['reason']}_")
+        lines.append("  _(إشارة غير مؤكدة — القرار النهائي لك)_")
         sections.append("\n".join(lines))
 
     # ── قسم 4: الكابتن ───────────────────────────────────────────────────────
-    captain_section = []
+    captain_lines = ["👑 *شارة القيادة:*"]
     if captain:
-        captain_section.append(f"🏆 *الكابتن المقترح:* {captain}")
+        captain_lines.append(f"• 🏆 الكابتن المقترح: *{captain}*")
     if vice_captain:
-        captain_section.append(f"🥈 *نائب الكابتن المقترح:* {vice_captain}")
-    if captain_section:
-        sections.append("\n".join(captain_section))
+        captain_lines.append(f"• 🥈 نائب الكابتن: *{vice_captain}*")
+    if len(captain_lines) > 1:
+        sections.append("\n".join(captain_lines))
 
     # ── قسم 5: اقتراح الرقاقة ────────────────────────────────────────────────
     if chip_suggestion:
@@ -95,43 +98,44 @@ def build_report_text(decision_data: dict, team_name: str = "", team_id: int = 0
         recommended = chip_suggestion.get("recommended", False)
         chip_reason = chip_suggestion.get("reason", "")
 
+        chip_lines = ["🃏 *اقتراح الرقاقة:*"]
         if recommended and chip_name:
-            chip_text = (
-                f"🎯 *اقتراح رقاقة:* نعم\n"
-                f"  النوع: *{chip_name}*\n"
-                f"  _السبب: {chip_reason}_"
-            )
+            chip_lines.append("• 🎯 الحالة: *مُقترحة*")
+            chip_lines.append(f"• 🏷️ النوع: *{chip_name}*")
+            if chip_reason:
+                chip_lines.append(f"• 📌 السبب: _{chip_reason}_")
         else:
-            chip_text = f"🎯 *اقتراح رقاقة:* لا \\— {chip_reason}"
-        sections.append(chip_text)
+            chip_lines.append("• 🎯 الحالة: *غير مستحسنة بهذه الجولة*")
+            if chip_reason:
+                chip_lines.append(f"• 📌 السبب: _{chip_reason}_")
+        sections.append("\n".join(chip_lines))
 
     # ── قسم 6: ملخص مالي ─────────────────────────────────────────────────────
-    financial_lines = []
-    financial_lines.append(f"💰 *الرصيد المتوقع بعد التحويلات:* £{bank_after:.1f}م")
-    financial_lines.append(f"🔄 *التحويلات المجانية المتبقية:* {free_transfers}")
+    financial_lines = ["💰 *الوضع المالي ورصيد التحويلات:*"]
+    financial_lines.append(f"• 💵 الرصيد المتبقي في البنك: *£{bank_after:.1f}M*")
+    financial_lines.append(f"• 🔄 التحويلات المجانية المتبقية: *{free_transfers}*")
     if transfers_cost < 0:
-        financial_lines.append(f"❗ *خصم نقاط متوقع:* {transfers_cost} نقطة")
+        financial_lines.append(f"• 📉 خصم النقاط المتوقع: *⚠️ خصم {abs(transfers_cost)} نقطة*")
     else:
-        financial_lines.append("❗ *خصم نقاط متوقع:* لا يوجد")
+        financial_lines.append("• 📉 خصم النقاط المتوقع: *لا يوجد (مجاني)*")
     sections.append("\n".join(financial_lines))
 
     # ── قسم 7: لاعبون يستحقون المتابعة (Differentials — اختياري) ──────────────
     differential_suggestions = decision_data.get("differential_suggestions", [])
     if differential_suggestions:
-        diff_lines = ["💡 *لاعبون يستحقون المتابعة (اختياري، لا يستهلك تحويلاتك):*"]
+        diff_lines = [f"💎 *لاعبون يستحقون المتابعة (Differentials) ({len(differential_suggestions)}):*"]
         for p in differential_suggestions:
+            diff_lines.append(f"• ⭐ *{p.get('name', '؟')}* ({p.get('position', 'MID')})")
             diff_lines.append(
-                f"  • *{p.get('name', '؟')}* ({p.get('position', 'MID')}) | £{p.get('price', 0.0):.1f}م | امتلاك: {p.get('ownership', 0.0):.1f}% | فورم: {p.get('form', 0.0):.1f}"
+                f"  💵 السعر: £{p.get('price', 0.0):.1f}M | 📈 الامتلاك: {p.get('ownership', 0.0):.1f}% | ⚡ الفورم: {p.get('form', 0.0):.1f}"
             )
             if p.get("reason"):
-                diff_lines.append(f"    _السبب: {p['reason']}_")
+                diff_lines.append(f"  📌 السبب: _{p['reason']}_")
+        diff_lines.append("  _(اختياري بالكامل — لا يستهلك تحويلاتك المخططة)_")
         sections.append("\n".join(diff_lines))
 
     # ── تذييل إلزامي ─────────────────────────────────────────────────────────
-    sections.append("─" * 30)
-    sections.append(
-        "_⚡ هذا تقرير اقتراح للمراجعة فقط — القرار النهائي لك دائماً._"
-    )
+    sections.append(f"{DIVIDER}\n⚡ _تقرير تحليلي استشاري — القرار النهائي لك دائماً._")
 
     report = "\n\n".join(sections)
 
@@ -151,7 +155,8 @@ def build_report_text(decision_data: dict, team_name: str = "", team_id: int = 0
 def build_season_ended_message() -> str:
     """يُرجع رسالة نهاية الموسم لو لا توجد جولة قادمة."""
     return (
-        "📊 *FPL AI Assistant*\n\n"
-        "🏁 _انتهى الموسم الحالي — لا توجد جولات قادمة._\n"
-        "ترقّب بداية الموسم الجديد!"
+        f"📊 *FPL AI Assistant*\n"
+        f"{DIVIDER}\n\n"
+        f"🏁 _انتهى الموسم الحالي — لا توجد جولات قادمة._\n\n"
+        f"ترقّب بداية الموسم الجديد! ⚽"
     )

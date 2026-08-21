@@ -86,13 +86,14 @@ def _send_error_notification(
     """
     try:
         from telegram_notifier import send_message
-        gw_text = f"الجولة {gameweek}" if gameweek else "جولة غير محددة"
-        team_text = f" {team_label}" if team_label else ""
+        gw_text = f"الجولة #{gameweek}" if gameweek else "جولة غير محددة"
+        team_text = f"\n👤 *الفريق:* {team_label}" if team_label else ""
         error_text = (
-            f"⚠️ *FPL AI Assistant — خطأ في التشغيل*\\n\\n"
-            f"فشل إنتاج تقرير{team_text} {gw_text}\\.\n"
-            f"السبب: `{error_type}`\\n\\n"
-            f"_يُرجى التحقق من سجلات GitHub Actions\\._"
+            f"⚠️ *تنبيه: خطأ في تشغيل FPL AI Assistant*\n"
+            f"━━━━━━━━━━━━━━━━━━━━{team_text}\n"
+            f"📅 *الجولة:* {gw_text}\n"
+            f"📌 *تفاصيل الخطأ:* `{error_type}`\n\n"
+            f"_يُرجى التحقق من سجلات التشغيل لحل المشكلة._"
         )
         send_message(bot_token, chat_id, error_text)
     except Exception as e:
@@ -148,12 +149,13 @@ def _handle_gw1_initial_squad(
     remaining = result.get("budget_remaining", 0)
 
     # بناء نص التقرير الأولي
+    divider = "━━━━━━━━━━━━━━━━━━━━"
     lines = [
-        "📊 *FPL AI Assistant — تشكيلة الجولة الأولى المقترحة*",
+        "📊 *تشكيلة الجولة الأولى المقترحة*",
+        divider,
+        "💡 _توصية مبنية على نسب الامتلاك والأداء السابق — القرار النهائي لك._",
         "",
-        "_هذه توصية مبنية على نسب الامتلاك والأداء السابق — القرار النهائي لك._",
-        "",
-        "⚽ *التشكيلة الأساسية المقترحة \\(11\\):*",
+        "⚽ *التشكيلة الأساسية (11 لاعب):*",
     ]
 
     xi = result.get("starting_xi", [])
@@ -161,21 +163,26 @@ def _handle_gw1_initial_squad(
 
     pos_names = {1: "GK", 2: "DEF", 3: "MID", 4: "FWD"}
     for p in xi:
-        pos = pos_names.get(p.get("element_type", 0), "")
-        lines.append(f"  • \\[{pos}\\] {p.get('web_name', '?')} — £{p.get('now_cost', 0)/10:.1f}م")
+        pos = pos_names.get(p.get("element_type", 0), "؟")
+        cost_m = p.get("now_cost", 0) / 10
+        lines.append(f"  • [{pos}] *{p.get('web_name', '؟')}* — £{cost_m:.1f}M")
 
     if bench:
-        lines.append("\n🪑 *البدلاء:*")
+        lines.append("\n🪑 *دكة البدلاء (4 لاعبين):*")
         for p in bench:
-            pos = pos_names.get(p.get("element_type", 0), "")
-            lines.append(f"  • \\[{pos}\\] {p.get('web_name', '?')} — £{p.get('now_cost', 0)/10:.1f}م")
+            pos = pos_names.get(p.get("element_type", 0), "؟")
+            cost_m = p.get("now_cost", 0) / 10
+            lines.append(f"  • [{pos}] *{p.get('web_name', '؟')}* — £{cost_m:.1f}M")
 
     lines.extend([
-        f"\n🏆 *الكابتن المقترح:* {captain}",
-        f"🥈 *نائب الكابتن:* {vice}",
-        f"\n💰 *التكلفة الإجمالية:* £{cost:.1f}م / 100م",
-        f"💵 *الرصيد المتبقي:* £{remaining:.1f}م",
-        "\n_⚡ تقرير اقتراح — القرار النهائي لك دائماً\\._",
+        "\n👑 *شارة القيادة:*",
+        f"  • 🏆 الكابتن المقترح: *{captain}*",
+        f"  • 🥈 نائب الكابتن: *{vice}*",
+        "\n💰 *الملخص المالي:*",
+        f"  • 💵 التكلفة الإجمالية: *£{cost:.1f}M / £100.0M*",
+        f"  • 🏦 الرصيد المتبقي: *£{remaining:.1f}M*",
+        f"\n{divider}",
+        "⚡ _تقرير تحليلي استشاري — القرار النهائي لك دائماً._",
     ])
 
     report_text = "\n".join(lines)
@@ -225,8 +232,12 @@ def _process_single_team(
     try:
         # ─── جلب تشكيلة الفريق وتاريخ الرقائق ───────────────────────────────
         from fpl_client import get_my_team, get_manager_history
-        logger.info("%s الخطوة أ: جلب التشكيلة للجولة %d...", team_label, current_gw)
-        my_team_data = get_my_team(team_id, current_gw)
+        squad_gw = current_gw - 1 if current_gw > 1 else 1
+        logger.info(
+            "%s الخطوة أ: جلب التشكيلة من الجولة %d (للتخطيط للجولة %d)...",
+            team_label, squad_gw, current_gw
+        )
+        my_team_data = get_my_team(team_id, squad_gw)
         my_picks = my_team_data.get("picks", [])
         entry_history = my_team_data.get("entry_history", {})
 
