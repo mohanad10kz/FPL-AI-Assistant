@@ -145,6 +145,68 @@ def get_current_gameweek(bootstrap_data: dict) -> Optional[int]:
     return None
 
 
+def get_next_gameweek_deadline(bootstrap_data: dict) -> Optional["datetime"]:
+    """
+    يستخرج وقت الديدلاين الفعلي للجولة القادمة من bootstrap-static.
+
+    Args:
+        bootstrap_data: النتيجة المباشرة من get_bootstrap_static()
+
+    Returns:
+        datetime بـ UTC لو وُجدت جولة قادمة، أو None لو انتهى الموسم.
+
+    Note:
+        FPL يُرجع deadline_time بصيغة ISO 8601 دائماً بـ UTC
+        (مثال: "2024-10-19T10:00:00Z").
+        نستهدف الجولة ذات is_next=True بالأولوية، ثم is_current=True.
+    """
+    from datetime import datetime, timezone
+
+    events = bootstrap_data.get("events", [])
+
+    # ابحث عن الجولة القادمة أولاً، ثم الحالية
+    target_event = next(
+        (e for e in events if e.get("is_next")),
+        None
+    ) or next(
+        (e for e in events if e.get("is_current")),
+        None
+    )
+
+    if not target_event:
+        logger.warning("⚠️ get_next_gameweek_deadline: لا توجد جولة قادمة أو جارية.")
+        return None
+
+    deadline_str = target_event.get("deadline_time", "")
+    if not deadline_str:
+        logger.warning(
+            "⚠️ get_next_gameweek_deadline: الجولة GW%d ليس لها deadline_time.",
+            target_event.get("id", "?")
+        )
+        return None
+
+    try:
+        # صيغة FPL: "2024-10-19T10:00:00Z" أو "2024-10-19T10:00:00+00:00"
+        deadline_str_clean = deadline_str.replace("Z", "+00:00")
+        deadline_utc = datetime.fromisoformat(deadline_str_clean)
+        # تأكد أن القيمة لها timezone info
+        if deadline_utc.tzinfo is None:
+            deadline_utc = deadline_utc.replace(tzinfo=timezone.utc)
+        logger.info(
+            "📅 ديدلاين GW%d: %s UTC",
+            target_event.get("id", "?"),
+            deadline_utc.strftime("%Y-%m-%d %H:%M")
+        )
+        return deadline_utc
+    except (ValueError, TypeError) as e:
+        logger.error(
+            "❌ خطأ في تحليل deadline_time '%s': %s",
+            deadline_str, e
+        )
+        return None
+
+
+
 def get_my_team(team_id: int, gameweek: int) -> dict:
     """
     يجلب تشكيلة مدير معين بجولة معينة.
