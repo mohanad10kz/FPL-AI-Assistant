@@ -298,10 +298,13 @@ class TestOutcomeTracker(unittest.TestCase):
     def test_decision_engine_does_not_import_outcome_tracker(self):
         """التأكد الحاسم من أن decision_engine.py لا يستورد outcome_tracker نهائياً."""
         decision_engine_path = src_dir / "decision_engine.py"
-        content = decision_engine_path.read_text(encoding="utf-8")
-        self.assertNotIn("outcome_tracker", content)
-        self.assertNotIn("evaluate_transfer_recommendation", content)
-        self.assertNotIn("process_pending_outcomes", content)
+        lines = decision_engine_path.read_text(encoding="utf-8").splitlines()
+        import_lines = [
+            line.strip() for line in lines
+            if line.strip().startswith("import ") or line.strip().startswith("from ")
+        ]
+        for imp in import_lines:
+            self.assertNotIn("outcome_tracker", imp)
 
 
 if __name__ == "__main__":

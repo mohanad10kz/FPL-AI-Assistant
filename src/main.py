@@ -17,6 +17,7 @@ import logging
 import traceback
 from pathlib import Path
 from datetime import datetime, timezone
+from typing import Optional
 
 # ─── إعداد Logging قبل أي استيراد ────────────────────────────────────────────
 logging.basicConfig(
@@ -341,6 +342,25 @@ def main():
             logger.info("تم جلب %d مباراة من جدول المباريات (مشترك)", len(fixtures_data))
         except Exception as e:
             logger.warning("⚠️ تعذّر جلب جدول المباريات: %s — سيتم التقدير بـ FDR محايد", e)
+
+        # ─── الخطوة 2أ: تقييم نتائج الجولات السابقة المنتهية (outcome_tracker) ──
+        # ⚠️ قيد تصميم حرج: هذه الخطوة مستقلة تماماً ومخصصة لجمع بيانات التدريب
+        # لـ learning_engine.py مستقبلاً. لا تؤثر على قرارات الجولة القادمة ولا تُستدعى
+        # من decision_engine.py. أي خطأ هنا لا يوقف تشغيل التحليل الحالي.
+        try:
+            from outcome_tracker import process_pending_outcomes
+            logger.info("الخطوة 2أ: فحص وتقييم نتائج الجولات الماضية المنتهية...")
+            for t_id, t_name in zip(team_ids, team_names):
+                outcomes = process_pending_outcomes(team_id=t_id, bootstrap_data=bootstrap_data)
+                if outcomes:
+                    logger.info(
+                        "✅ تم حفظ تقييم %d جولة منتهية للفريق %s (ID=%d)",
+                        len(outcomes), t_name, t_id
+                    )
+        except Exception as e:
+            logger.warning(
+                "⚠️ تعذّر إتمام تقييم نتائج الجولات الماضية: %s — المتابعة بالتحليل الطبيعي", e
+            )
 
         # ─── الخطوة 3: تحديد الحالة العامة ──────────────────────────────────
         if current_gw is None:

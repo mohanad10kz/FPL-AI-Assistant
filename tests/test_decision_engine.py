@@ -9,9 +9,9 @@ import json
 import unittest
 from pathlib import Path
 from unittest.mock import patch, MagicMock
-
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
+from transfer_planner import QUEUE_FILE
 from decision_engine import (
     run_decision_engine,
     _get_used_chips_this_half,
@@ -19,7 +19,7 @@ from decision_engine import (
     _evaluate_chip,
 )
 
-from transfer_planner import QUEUE_FILE
+
 
 
 def make_player(pid, name, pos, team, price_raw, form, ep_next, status="a", chance=None, news=""):
