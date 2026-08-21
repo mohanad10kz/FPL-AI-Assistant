@@ -1,12 +1,12 @@
-name: FPL Weekly Report
+name: FPL Daily Check
 
 on:
-  # ── جدولة تلقائية: كل جمعة الساعة 16:00 UTC (قبل الديدلاين بـ4-6 ساعات في العادة)
-  # ⚠️ الديدلاين يتغيّر أسبوعياً — عدّل الوقت يدوياً إذا لاحظت انحرافاً
+  # ── جدولة يومية: كل يوم الساعة 12:00 UTC
+  # main.py سيفحص الديدلاين تلقائياً — إذا كان أكثر من 24 ساعة لا يُرسل شيء
   schedule:
-    - cron: "0 16 * * 5"
+    - cron: "0 12 * * *"
 
-  # ── تشغيل يدوي من تبويب Actions للاختبار قبل الاعتماد على الجدولة التلقائية
+  # ── تشغيل يدوي من تبويب Actions للاختبار
   workflow_dispatch:
     inputs:
       debug_mode:
@@ -45,22 +45,28 @@ jobs:
         run: pip install -r requirements.txt
 
       # ── الخطوة 4: تشغيل المساعد ─────────────────────────────────────────
+      # main.py يفحص الديدلاين تلقائياً:
+      #   • إذا تبقى > 24 ساعة  → يخرج فوراً بكود 0 (بدون إرسال)
+      #   • إذا تبقى ≤ 24 ساعة  → يُكمل التحليل ويُرسل التقارير
+      #   • إذا same GW مُرسَل   → يخرج بكود 0 (بدون تكرار)
       - name: Run FPL AI Assistant
         env:
-          FPL_TEAM_ID: ${{ secrets.FPL_TEAM_ID }}
+          FPL_TEAM_IDS: ${{ secrets.FPL_TEAM_IDS }}
+          FPL_TEAM_NAMES: ${{ secrets.FPL_TEAM_NAMES }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           # INJURY_SOURCE_URL و TOP_N_MANAGERS اختياريان (لهما قيم افتراضية في config.py)
-          # يمكن إضافتهما كـ Secrets لو أردت تعديلهما بدون تغيير الكود
         run: |
           echo "=== FPL AI Assistant — بدء التشغيل ==="
           echo "الوقت: $(date -u)"
           python src/main.py
-          echo "=== انتهى التشغيل بنجاح ==="
+          echo "=== انتهى التشغيل ==="
 
-      # ── الخطوة 5: حفظ ملفات الحالة والأرشيف (ضروري لتراكم الطابور) ─────
-      # ⚠️ هذه الخطوة حرجة: بيئة GitHub Actions مؤقتة — بدون هذا الـ commit
-      # سيُفقد transfer_queue.json بين كل تشغيل وآخر ويتعطل منطق التخطيط متعدد الجولات
+      # ── الخطوة 5: حفظ ملفات الحالة والأرشيف (ضروري لتراكم البيانات) ────
+      # ⚠️ حرجة: بيئة GitHub Actions مؤقتة — بدون هذا الـ commit تُفقد:
+      #   - transfer_queue_{team_id}.json  → يتعطل التخطيط متعدد الجولات
+      #   - last_sent_gw.json              → يُرسل تقرير مكرر في كل تشغيل
+      #   - data/history/{team_id}/        → يُفقد الأرشيف التاريخي
       - name: Commit updated state and history files
         run: |
           git config user.name "fpl-bot[bot]"
@@ -70,7 +76,7 @@ jobs:
           git add data/state/ data/history/ || true
 
           # الـ commit يفشل برمز خروج 1 لو لا توجد تغييرات — نتجاهله
-          git commit -m "chore: update FPL state after GW run [skip ci]" || echo "No state changes to commit"
+          git commit -m "chore: update FPL state after daily check [skip ci]" || echo "No state changes to commit"
 
           # push آمن مع retry بسيط
           git push origin HEAD || git push --force-with-lease origin HEAD
