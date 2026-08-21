@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 TELEGRAM_MAX_LENGTH = 4096
 
 
-def build_report_text(decision_data: dict) -> str:
+def build_report_text(decision_data: dict, team_name: str = "", team_id: int = 0) -> str:
     """
     يبني نص التقرير الكامل من مخرجات decision_engine.run_decision_engine().
 
@@ -21,6 +21,8 @@ def build_report_text(decision_data: dict) -> str:
 
     Args:
         decision_data: الكائن النهائي من decision_engine.run_decision_engine()
+        team_name: اسم الفريق لعرضه بعنوان التقرير ("" = لا فريق محدد)
+        team_id: رقم الفريق (يُستخدم كاحتياطي لو لم يُعطَب team_name)
 
     Returns:
         نص Markdown جاهز للإرسال عبر تيليجرام
@@ -36,10 +38,16 @@ def build_report_text(decision_data: dict) -> str:
     free_transfers = decision_data.get("free_transfers_remaining", 0)
     transfers_cost = decision_data.get("transfers_cost", 0)
 
+    # بناء اسم الفريق للعنوان
+    display_name = team_name if team_name else (f"فريق {team_id}" if team_id else "")
+
     sections = []
 
     # ── رأس التقرير ──────────────────────────────────────────────────────────
-    sections.append(f"📊 *تقرير الجولة \\#{gw}*")
+    if display_name:
+        sections.append(f"📊 *\\[{display_name}\\] تقرير الجولة \\#{gw}*")
+    else:
+        sections.append(f"📊 *تقرير الجولة \\#{gw}*")
     sections.append("─" * 30)
 
     # ── قسم 1: التحويلات المنفَّذة الآن ──────────────────────────────────────
