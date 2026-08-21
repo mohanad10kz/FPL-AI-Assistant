@@ -293,3 +293,22 @@ def get_league_standings(league_id: int = 314, page: int = 1) -> dict:
         league_id, len(results)
     )
     return data
+
+
+def get_fixtures(future_only: bool = False) -> list[dict]:
+    """
+    يجلب جدول مباريات الموسم وصعوبة كل مباراة (FDR).
+
+    Args:
+        future_only: إذا True، يجلب فقط المباريات القادمة
+
+    Returns:
+        قائمة بقواميس المباريات (event, team_h, team_a, team_h_difficulty, team_a_difficulty, finished, ...)
+    """
+    url = f"{FPL_BASE_URL}/fixtures/"
+    params = {"future": 1} if future_only else None
+    logger.info("📥 جلب جدول المباريات (future_only=%s)...", future_only)
+    data = _get(url, params=params)
+    logger.info("✅ تم جلب %d مباراة من جدول المباريات", len(data))
+    return data
+
