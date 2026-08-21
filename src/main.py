@@ -3,6 +3,11 @@ main.py — نقطة التشغيل الوحيدة للمشروع.
 
 ينسّق تسلسل الاستدعاء الكامل من البداية للنهاية.
 التسلسل المفصّل موثّق بـ 10_main.md.
+
+دعم الفرق المتعددة:
+- البيانات المشتركة (bootstrap، إصابات، إجماع) تُجلب مرة واحدة.
+- كل فريق يُعالَج بشكل مستقل بحلقة منفصلة.
+- فشل أحد الفرق لا يوقف معالجة الباقي.
 """
 
 import sys
@@ -38,17 +43,20 @@ def _send_error_notification(
     chat_id: str,
     error_type: str,
     gameweek: object = None,
+    team_label: str = "",
 ) -> None:
     """
     يُرسل رسالة تيليجرام مختصرة عند حدوث خطأ — لا فشل صامت أبداً.
+    team_label: وصف الفريق المتأثر (مثل "[فريق محمد]") — اختياري.
     """
     try:
         from telegram_notifier import send_message
         gw_text = f"الجولة {gameweek}" if gameweek else "جولة غير محددة"
+        team_text = f" {team_label}" if team_label else ""
         error_text = (
-            f"⚠️ *FPL AI Assistant — خطأ في التشغيل*\n\n"
-            f"فشل إنتاج تقرير {gw_text}\\.\n"
-            f"السبب: `{error_type}`\n\n"
+            f"⚠️ *FPL AI Assistant — خطأ في التشغيل*\\n\\n"
+            f"فشل إنتاج تقرير{team_text} {gw_text}\\.\n"
+            f"السبب: `{error_type}`\\n\\n"
             f"_يُرجى التحقق من سجلات GitHub Actions\\._"
         )
         send_message(bot_token, chat_id, error_text)
@@ -56,16 +64,23 @@ def _send_error_notification(
         logger.error("فشل حتى إرسال رسالة الخطأ: %s", e)
 
 
-def _archive_result(decision: dict, gameweek: int) -> None:
-    """يحفظ الكائن الكامل بملف أرشيف لكل جولة."""
+def _archive_result(decision: dict, gameweek: int, team_id: int) -> None:
+    """يحفظ الكائن الكامل بملف أرشيف خاص بكل فريق وجولة."""
     try:
-        HISTORY_DIR.mkdir(parents=True, exist_ok=True)
-        archive_path = HISTORY_DIR / f"gw_{gameweek}.json"
+        team_history_dir = HISTORY_DIR / str(team_id)
+        team_history_dir.mkdir(parents=True, exist_ok=True)
+        archive_path = team_history_dir / f"gw_{gameweek}.json"
         with open(archive_path, "w", encoding="utf-8") as f:
             json.dump(decision, f, ensure_ascii=False, indent=2, default=str)
-        logger.info("تم أرشفة نتيجة الجولة %d في: %s", gameweek, archive_path)
+        logger.info(
+            "تم أرشفة نتيجة الجولة %d للفريق %d في: %s",
+            gameweek, team_id, archive_path
+        )
     except Exception as e:
-        logger.warning("⚠️ فشل أرشفة نتيجة الجولة %d: %s", gameweek, e)
+        logger.warning(
+            "⚠️ فشل أرشفة نتيجة الجولة %d للفريق %d: %s",
+            gameweek, team_id, e
+        )
 
 
 def _handle_gw1_initial_squad(
@@ -139,12 +154,106 @@ def _handle_gw1_initial_squad(
     )
     logger.info("تم حفظ علم التشكيلة الأولية: %s", INITIAL_SQUAD_FLAG)
 
-    # أرشفة
-    _archive_result(result, gameweek=1)
+    # أرشفة (الجولة 1 لا تنسب لفريق واحد — نحفظها بمجلد مشترك)
+    try:
+        HISTORY_DIR.mkdir(parents=True, exist_ok=True)
+        archive_path = HISTORY_DIR / "gw_1_initial_squad.json"
+        with open(archive_path, "w", encoding="utf-8") as f:
+            json.dump(result, f, ensure_ascii=False, indent=2, default=str)
+        logger.info("تم أرشفة التشكيلة الأولية في: %s", archive_path)
+    except Exception as e:
+        logger.warning("⚠️ فشل أرشفة التشكيلة الأولية: %s", e)
+
+
+def _process_single_team(
+    team_id: int,
+    team_name: str,
+    current_gw: int,
+    bootstrap_data: dict,
+    injury_data: dict,
+    consensus_data,
+    top_n: int,
+    bot_token: str,
+    chat_id: str,
+) -> bool:
+    """
+    يُعالج فريقاً واحداً كاملاً: جلب بياناته، تشغيل محرك القرار،
+    بناء التقرير، إرساله، وأرشفته.
+
+    Returns:
+        True عند نجاح المعالجة الكاملة، False عند أي خطأ.
+    """
+    team_label = f"[{team_name}]"
+    logger.info("=== بدء معالجة الفريق %s (ID=%d) ===", team_name, team_id)
+
+    try:
+        # ─── جلب تشكيلة الفريق وتاريخ الرقائق ───────────────────────────────
+        from fpl_client import get_my_team, get_manager_history
+        logger.info("%s الخطوة أ: جلب التشكيلة للجولة %d...", team_label, current_gw)
+        my_team_data = get_my_team(team_id, current_gw)
+        my_picks = my_team_data.get("picks", [])
+        entry_history = my_team_data.get("entry_history", {})
+
+        logger.info("%s الخطوة ب: جلب تاريخ الرقائق...", team_label)
+        manager_history = get_manager_history(team_id)
+
+        # ─── ملف حالة transfer_planner الخاص بهذا الفريق ────────────────────
+        queue_file = STATE_DIR / f"transfer_queue_{team_id}.json"
+        logger.info("%s ملف الحالة: %s", team_label, queue_file)
+
+        # ─── تشغيل محرك القرار ───────────────────────────────────────────────
+        from decision_engine import run_decision_engine
+        logger.info("%s الخطوة ج: تشغيل محرك القرار...", team_label)
+        decision = run_decision_engine(
+            gameweek=current_gw,
+            my_picks=my_picks,
+            entry_history=entry_history,
+            bootstrap_data=bootstrap_data,
+            injury_statuses=injury_data,
+            manager_history=manager_history,
+            queue_file=queue_file,
+            consensus_data=consensus_data,
+            total_top_n=top_n,
+        )
+
+        # ─── بناء التقرير وإرساله ─────────────────────────────────────────────
+        from report_builder import build_report_text
+        from telegram_notifier import send_report
+        logger.info("%s الخطوة د: بناء التقرير وإرساله...", team_label)
+        report_text = build_report_text(
+            decision,
+            team_name=team_name,
+            team_id=team_id,
+        )
+        success = send_report(bot_token, chat_id, report_text)
+        if not success:
+            logger.error(
+                "%s ❌ فشل إرسال التقرير — لكن الأرشفة ستتم على أي حال",
+                team_label
+            )
+
+        # ─── أرشفة النتيجة ────────────────────────────────────────────────────
+        _archive_result(decision, current_gw, team_id)
+
+        logger.info("=== انتهت معالجة الفريق %s بنجاح ===", team_name)
+        return True
+
+    except Exception as e:
+        error_msg = f"{type(e).__name__}: {e}"
+        logger.error(
+            "❌ خطأ في معالجة الفريق %s (ID=%d): %s\n%s",
+            team_name, team_id, error_msg, traceback.format_exc()
+        )
+        _send_error_notification(
+            bot_token, chat_id, error_msg,
+            gameweek=current_gw,
+            team_label=team_label,
+        )
+        return False
 
 
 def main():
-    """نقطة الدخول الرئيسية — تسلسل التشغيل الكامل."""
+    """نقطة الدخول الرئيسية — تسلسل التشغيل الكامل مع دعم الفرق المتعددة."""
 
     # ─── الخطوة 1: تحميل الإعدادات ──────────────────────────────────────────
     try:
@@ -155,21 +264,25 @@ def main():
 
     bot_token = config.telegram_bot_token
     chat_id = config.telegram_chat_id
-    team_id = config.fpl_team_id
+    team_ids = config.fpl_team_ids
+    team_names = config.fpl_team_names
     top_n = config.top_n_managers
     injury_url = config.injury_source_url
 
-    logger.info("=== FPL AI Assistant — بدء التشغيل ===")
+    logger.info(
+        "=== FPL AI Assistant — بدء التشغيل === فرق: %s",
+        list(zip(team_ids, team_names))
+    )
     current_gw = None
 
     try:
-        # ─── الخطوة 2: جلب بيانات FPL الأساسية ──────────────────────────────
+        # ─── الخطوة 2: جلب البيانات المشتركة (مرة واحدة لجميع الفرق) ─────────
         from fpl_client import get_bootstrap_static, get_current_gameweek
-        logger.info("الخطوة 2: جلب bootstrap-static...")
+        logger.info("الخطوة 2: جلب bootstrap-static (مشترك لجميع الفرق)...")
         bootstrap_data = get_bootstrap_static()
         current_gw = get_current_gameweek(bootstrap_data)
 
-        # ─── الخطوة 3: تحديد الحالة ──────────────────────────────────────────
+        # ─── الخطوة 3: تحديد الحالة العامة ──────────────────────────────────
         if current_gw is None:
             # الموسم انتهى
             logger.info("الموسم انتهى — لا توجد جولة قادمة")
@@ -181,28 +294,18 @@ def main():
         logger.info("الجولة الحالية/القادمة: GW%d", current_gw)
 
         if current_gw == 1 and not INITIAL_SQUAD_FLAG.exists():
-            # الجولة الأولى — بناء تشكيلة أولية فقط
+            # الجولة الأولى — بناء تشكيلة أولية (مشتركة — لا تكرار لكل فريق)
             logger.info("GW1 — مسار التشكيلة الأولية")
             _handle_gw1_initial_squad(bootstrap_data, bot_token, chat_id)
             logger.info("=== تم إنهاء تشغيل GW1 بنجاح ===")
             return
 
-        # ─── الخطوة 4: جلب تشكيلتي وتاريخ الرقائق ────────────────────────
-        from fpl_client import get_my_team, get_manager_history
-        logger.info("الخطوة 4: جلب تشكيلة team_id=%d للجولة %d...", team_id, current_gw)
-        my_team_data = get_my_team(team_id, current_gw)
-        my_picks = my_team_data.get("picks", [])
-        entry_history = my_team_data.get("entry_history", {})
-
-        logger.info("الخطوة 4b: جلب تاريخ الرقائق...")
-        manager_history = get_manager_history(team_id)
-
-        # ─── الخطوة 5: جلب حالة الإصابات ─────────────────────────────────
+        # ─── الخطوة 4: جلب حالة الإصابات (مشتركة) ──────────────────────────
         from injuries_source import get_all_injury_statuses
-        logger.info("الخطوة 5: جلب حالة الإصابات...")
+        logger.info("الخطوة 4: جلب حالة الإصابات (مشتركة)...")
         injury_data = get_all_injury_statuses(bootstrap_data, injury_url)
 
-        # ─── الخطوة 6: جلب بيانات إجماع أفضل N (GW≥2 فقط) ────────────────
+        # ─── الخطوة 5: جلب إجماع أفضل N (مشترك، GW≥2 فقط) ─────────────────
         consensus_data = None
         if current_gw > 1:
             from top_managers import (
@@ -211,7 +314,7 @@ def main():
                 calculate_consensus,
             )
             logger.info(
-                "الخطوة 6: جلب أفضل %d مدير للجولة %d...",
+                "الخطوة 5: جلب أفضل %d مدير للجولة %d (مشترك)...",
                 top_n, current_gw - 1
             )
             try:
@@ -223,45 +326,54 @@ def main():
                 else:
                     logger.warning("لا يوجد مدراء بالإجماع بعد — تشغيل بدون بيانات إجماع")
             except Exception as e:
-                logger.warning("⚠️ فشل جلب بيانات إجماع أفضل N: %s — المتابعة بدونها", e)
-
-        # ─── الخطوة 7: تشغيل محرك القرار ────────────────────────────────────
-        from decision_engine import run_decision_engine
-        logger.info("الخطوة 7: تشغيل محرك القرار...")
-        decision = run_decision_engine(
-            gameweek=current_gw,
-            my_picks=my_picks,
-            entry_history=entry_history,
-            bootstrap_data=bootstrap_data,
-            injury_statuses=injury_data,
-            manager_history=manager_history,
-            consensus_data=consensus_data,
-            total_top_n=top_n,
-        )
-
-        # ─── الخطوة 8: بناء التقرير وإرساله ─────────────────────────────────
-        from report_builder import build_report_text
-        from telegram_notifier import send_report
-        logger.info("الخطوة 8: بناء التقرير وإرساله...")
-        report_text = build_report_text(decision)
-        success = send_report(bot_token, chat_id, report_text)
-        if not success:
-            logger.error("❌ فشل إرسال التقرير — لكن الأرشفة ستتم على أي حال")
-
-        # ─── الخطوة 9: أرشفة النتيجة ─────────────────────────────────────────
-        _archive_result(decision, current_gw)
-
-        logger.info("=== تم إنهاء التشغيل بنجاح — الجولة GW%d ===", current_gw)
+                logger.warning(
+                    "⚠️ فشل جلب بيانات إجماع أفضل N: %s — المتابعة بدونها", e
+                )
 
     except Exception as e:
-        # معالجة الأخطاء العليا — لا فشل صامت
+        # فشل في جلب البيانات المشتركة — لا يمكن المتابعة
         error_msg = f"{type(e).__name__}: {e}"
-        logger.error("❌ خطأ غير متوقع: %s\n%s", error_msg, traceback.format_exc())
-
-        # محاولة إرسال إشعار بالخطأ
+        logger.error(
+            "❌ خطأ فادح في جلب البيانات المشتركة: %s\n%s",
+            error_msg, traceback.format_exc()
+        )
         _send_error_notification(bot_token, chat_id, error_msg, current_gw)
         sys.exit(1)
+
+    # ─── الخطوة 6: حلقة الفرق — كل فريق بشكل مستقل ─────────────────────────
+    logger.info(
+        "=== بدء معالجة %d فريق (GW%d) ===",
+        len(team_ids), current_gw
+    )
+
+    results = {}
+    for team_id, team_name in zip(team_ids, team_names):
+        success = _process_single_team(
+            team_id=team_id,
+            team_name=team_name,
+            current_gw=current_gw,
+            bootstrap_data=bootstrap_data,
+            injury_data=injury_data,
+            consensus_data=consensus_data,
+            top_n=top_n,
+            bot_token=bot_token,
+            chat_id=chat_id,
+        )
+        results[team_name] = "✅ نجاح" if success else "❌ فشل"
+
+    # ─── ملخص نهائي ──────────────────────────────────────────────────────────
+    logger.info("=== ملخص التشغيل — GW%d ===", current_gw)
+    for name, status in results.items():
+        logger.info("  %s: %s", name, status)
+
+    failed = [n for n, s in results.items() if "فشل" in s]
+    if failed:
+        logger.error("❌ فشل معالجة: %s", ", ".join(failed))
+        sys.exit(1)
+    else:
+        logger.info("=== تم إنهاء التشغيل بنجاح لجميع الفرق ===")
 
 
 if __name__ == "__main__":
     main()
+
