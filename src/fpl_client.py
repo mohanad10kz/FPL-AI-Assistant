@@ -7,6 +7,7 @@ import time
 import logging
 import requests
 from typing import Optional
+from datetime import datetime, timezone
 
 logger = logging.getLogger(__name__)
 
@@ -160,7 +161,7 @@ def get_next_gameweek_deadline(bootstrap_data: dict) -> Optional["datetime"]:
         (مثال: "2024-10-19T10:00:00Z").
         نستهدف الجولة ذات is_next=True بالأولوية، ثم is_current=True.
     """
-    from datetime import datetime, timezone
+
 
     events = bootstrap_data.get("events", [])
 
