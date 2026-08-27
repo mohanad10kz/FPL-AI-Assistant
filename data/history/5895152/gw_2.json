@@ -1,0 +1,101 @@
+{
+  "gameweek": 2,
+  "forced_transfers": [],
+  "still_pending": [],
+  "flagged_players": [
+    {
+      "name": "Guéhi",
+      "reason": "غائب عن إجماع أفضل 10 (1/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Muñoz",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Szoboszlai",
+      "reason": "غائب عن إجماع أفضل 10 (2/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Semenyo",
+      "reason": "غائب عن إجماع أفضل 10 (1/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Calvert-Lewin",
+      "reason": "غائب عن إجماع أفضل 10 (2/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Benitez",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Cash",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Aaronson",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    }
+  ],
+  "captain": "João Pedro",
+  "vice_captain": "Calafiori",
+  "chip_suggestion": {
+    "chip": "Free Hit",
+    "recommended": false,
+    "reason": "Free Hit متاح لكن قراره يُترك لك — يُستخدم أمثلياً بالجولات المضاعفة/الملغاة"
+  },
+  "transfers_cost": 0,
+  "bank_after": 0.0,
+  "free_transfers_remaining": 1,
+  "differential_suggestions": [
+    {
+      "id": 115,
+      "name": "De Cuyper",
+      "position": "DEF",
+      "price": 4.6,
+      "ownership": 7.3,
+      "form": 17.0,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (17.0) + جدول مباريات واعد + امتلاك تفاضلي (7.3%)"
+    },
+    {
+      "id": 586,
+      "name": "Mendy",
+      "position": "DEF",
+      "price": 4.0,
+      "ownership": 3.3,
+      "form": 15.0,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (15.0) + جدول مباريات واعد + امتلاك منخفض جداً (3.3%)"
+    },
+    {
+      "id": 572,
+      "name": "Tzolakis",
+      "position": "GK",
+      "price": 4.5,
+      "ownership": 2.6,
+      "form": 10.0,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (10.0) + جدول مباريات واعد + امتلاك منخفض جداً (2.6%)"
+    },
+    {
+      "id": 249,
+      "name": "Barry",
+      "position": "FWD",
+      "price": 5.5,
+      "ownership": 3.0,
+      "form": 8.0,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (8.0) + جدول مباريات واعد + امتلاك منخفض جداً (3.0%)"
+    },
+    {
+      "id": 335,
+      "name": "Stach",
+      "position": "MID",
+      "price": 6.0,
+      "ownership": 2.1,
+      "form": 13.0,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (13.0) + جدول مباريات واعد + امتلاك منخفض جداً (2.1%)"
+    }
+  ]
+}
