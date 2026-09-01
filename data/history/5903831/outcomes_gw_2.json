@@ -1,0 +1,33 @@
+{
+  "gameweek": 2,
+  "evaluated_at": "2026-09-01T16:08:31.531557+00:00",
+  "transfer_evaluations": [],
+  "captain_evaluation": {
+    "suggested": "João Pedro",
+    "actual_points": 9,
+    "best_possible_points": 23,
+    "gap": 14
+  },
+  "differential_evaluations": [
+    {
+      "name": "De Cuyper",
+      "actual_points": 0
+    },
+    {
+      "name": "Mendy",
+      "actual_points": 1
+    },
+    {
+      "name": "Tzolakis",
+      "actual_points": 10
+    },
+    {
+      "name": "Barry",
+      "actual_points": 2
+    },
+    {
+      "name": "Stach",
+      "actual_points": 4
+    }
+  ]
+}
