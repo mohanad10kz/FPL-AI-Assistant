@@ -1,0 +1,105 @@
+{
+  "gameweek": 3,
+  "forced_transfers": [],
+  "still_pending": [],
+  "flagged_players": [
+    {
+      "name": "Shaw",
+      "reason": "غائب عن إجماع أفضل 10 (1/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Mendy",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Gomez",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Szoboszlai",
+      "reason": "غائب عن إجماع أفضل 10 (2/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Haaland",
+      "reason": "غائب عن إجماع أفضل 10 (2/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Benitez",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Muñoz",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Konsa",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Hughes",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    }
+  ],
+  "captain": "B.Fernandes",
+  "vice_captain": "João Pedro",
+  "chip_suggestion": {
+    "chip": "Triple Captain",
+    "recommended": true,
+    "reason": "الكابتن B.Fernandes بفورم 12.5 ونقاط متوقعة 12.5 — ثلاثية الكابتن مجدية"
+  },
+  "transfers_cost": 0,
+  "bank_after": 0.5,
+  "free_transfers_remaining": 1,
+  "differential_suggestions": [
+    {
+      "id": 593,
+      "name": "Dedić",
+      "position": "DEF",
+      "price": 4.5,
+      "ownership": 3.2,
+      "form": 6.0,
+      "next_fixtures_difficulty": "سهلة",
+      "reason": "فورم ممتاز (6.0) + مباريات قادمة سهلة جداً + امتلاك منخفض جداً (3.2%)"
+    },
+    {
+      "id": 449,
+      "name": "Hall",
+      "position": "DEF",
+      "price": 5.1,
+      "ownership": 10.2,
+      "form": 7.0,
+      "next_fixtures_difficulty": "سهلة",
+      "reason": "فورم ممتاز (7.0) + مباريات قادمة سهلة جداً + امتلاك تفاضلي (10.2%)"
+    },
+    {
+      "id": 279,
+      "name": "Ajayi",
+      "position": "DEF",
+      "price": 4.1,
+      "ownership": 9.8,
+      "form": 10.0,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (10.0) + جدول مباريات واعد + امتلاك تفاضلي (9.8%)"
+    },
+    {
+      "id": 572,
+      "name": "Tzolakis",
+      "position": "GK",
+      "price": 4.6,
+      "ownership": 8.1,
+      "form": 10.0,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (10.0) + جدول مباريات واعد + امتلاك تفاضلي (8.1%)"
+    },
+    {
+      "id": 445,
+      "name": "Thiaw",
+      "position": "DEF",
+      "price": 5.0,
+      "ownership": 2.2,
+      "form": 4.5,
+      "next_fixtures_difficulty": "سهلة",
+      "reason": "فورم تصاعدي (4.5) + مباريات قادمة سهلة جداً + امتلاك منخفض جداً (2.2%)"
+    }
+  ]
+}
