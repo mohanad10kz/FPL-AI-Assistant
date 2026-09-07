@@ -1,0 +1,33 @@
+{
+  "gameweek": 3,
+  "evaluated_at": "2026-09-07T17:20:32.059895+00:00",
+  "transfer_evaluations": [],
+  "captain_evaluation": {
+    "suggested": "B.Fernandes",
+    "actual_points": 2,
+    "best_possible_points": 9,
+    "gap": 7
+  },
+  "differential_evaluations": [
+    {
+      "name": "Dedić",
+      "actual_points": 1
+    },
+    {
+      "name": "Hall",
+      "actual_points": 4
+    },
+    {
+      "name": "Ajayi",
+      "actual_points": 5
+    },
+    {
+      "name": "Tzolakis",
+      "actual_points": 6
+    },
+    {
+      "name": "Thiaw",
+      "actual_points": -1
+    }
+  ]
+}
