@@ -1,0 +1,33 @@
+{
+  "gameweek": 4,
+  "evaluated_at": "2026-09-15T16:23:14.624612+00:00",
+  "transfer_evaluations": [],
+  "captain_evaluation": {
+    "suggested": "Haaland",
+    "actual_points": 9,
+    "best_possible_points": 14,
+    "gap": 5
+  },
+  "differential_evaluations": [
+    {
+      "name": "Thomas",
+      "actual_points": 0
+    },
+    {
+      "name": "Tzolakis",
+      "actual_points": 2
+    },
+    {
+      "name": "Mitchell",
+      "actual_points": 1
+    },
+    {
+      "name": "Ajayi",
+      "actual_points": 1
+    },
+    {
+      "name": "Hall",
+      "actual_points": 0
+    }
+  ]
+}
