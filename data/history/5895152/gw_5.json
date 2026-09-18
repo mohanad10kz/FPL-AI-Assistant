@@ -1,0 +1,104 @@
+{
+  "gameweek": 5,
+  "forced_transfers": [
+    {
+      "out": "Mendy",
+      "in": "Gvardiol",
+      "reason": "injured — Concussion - Expected back 11 Oct",
+      "cost_in_points": 0
+    }
+  ],
+  "still_pending": [],
+  "flagged_players": [
+    {
+      "name": "Guéhi",
+      "reason": "غائب عن إجماع أفضل 10 (1/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Thomas",
+      "reason": "غائب عن إجماع أفضل 10 (2/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Cherki",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Calvert-Lewin",
+      "reason": "غائب عن إجماع أفضل 10 (2/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Benitez",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Aaronson",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Brobbey",
+      "reason": "غائب عن إجماع أفضل 10 (1/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    }
+  ],
+  "captain": "Calafiori",
+  "vice_captain": "Raya",
+  "chip_suggestion": {
+    "chip": "Free Hit",
+    "recommended": false,
+    "reason": "Free Hit متاح لكن قراره يُترك لك — يُستخدم أمثلياً بالجولات المضاعفة/الملغاة"
+  },
+  "transfers_cost": 0,
+  "bank_after": 2.7,
+  "free_transfers_remaining": 0,
+  "differential_suggestions": [
+    {
+      "id": 286,
+      "name": "Belloumi",
+      "position": "MID",
+      "price": 5.1,
+      "ownership": 4.4,
+      "form": 6.8,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (6.8) + جدول مباريات واعد + امتلاك منخفض جداً (4.4%)"
+    },
+    {
+      "id": 282,
+      "name": "Giles",
+      "position": "DEF",
+      "price": 4.0,
+      "ownership": 2.9,
+      "form": 6.0,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (6.0) + جدول مباريات واعد + امتلاك منخفض جداً (2.9%)"
+    },
+    {
+      "id": 572,
+      "name": "Tzolakis",
+      "position": "GK",
+      "price": 4.6,
+      "ownership": 11.4,
+      "form": 7.0,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (7.0) + جدول مباريات واعد + امتلاك تفاضلي (11.4%)"
+    },
+    {
+      "id": 277,
+      "name": "Egan",
+      "position": "DEF",
+      "price": 4.1,
+      "ownership": 7.1,
+      "form": 6.2,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (6.2) + جدول مباريات واعد + امتلاك تفاضلي (7.1%)"
+    },
+    {
+      "id": 330,
+      "name": "Bogle",
+      "position": "DEF",
+      "price": 4.6,
+      "ownership": 6.0,
+      "form": 9.2,
+      "next_fixtures_difficulty": "صعبة",
+      "reason": "فورم ممتاز (9.2) + امتلاك منخفض جداً (6.0%)"
+    }
+  ]
+}
