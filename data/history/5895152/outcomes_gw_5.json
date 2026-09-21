@@ -1,0 +1,40 @@
+{
+  "gameweek": 5,
+  "evaluated_at": "2026-09-21T17:55:27.019446+00:00",
+  "transfer_evaluations": [
+    {
+      "out": "Mendy",
+      "in": "Gvardiol",
+      "followed_by_user": false,
+      "points_gained_if_followed": 4
+    }
+  ],
+  "captain_evaluation": {
+    "suggested": "Calafiori",
+    "actual_points": 1,
+    "best_possible_points": 17,
+    "gap": 16
+  },
+  "differential_evaluations": [
+    {
+      "name": "Belloumi",
+      "actual_points": 4
+    },
+    {
+      "name": "Giles",
+      "actual_points": 0
+    },
+    {
+      "name": "Tzolakis",
+      "actual_points": 6
+    },
+    {
+      "name": "Egan",
+      "actual_points": 1
+    },
+    {
+      "name": "Bogle",
+      "actual_points": 5
+    }
+  ]
+}

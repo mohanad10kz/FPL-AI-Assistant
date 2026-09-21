@@ -1,0 +1,40 @@
+{
+  "gameweek": 5,
+  "evaluated_at": "2026-09-21T17:55:28.027881+00:00",
+  "transfer_evaluations": [
+    {
+      "out": "Mendy",
+      "in": "Ajayi",
+      "followed_by_user": false,
+      "points_gained_if_followed": 1
+    }
+  ],
+  "captain_evaluation": {
+    "suggested": "De Cuyper",
+    "actual_points": 6,
+    "best_possible_points": 6,
+    "gap": 0
+  },
+  "differential_evaluations": [
+    {
+      "name": "Belloumi",
+      "actual_points": 4
+    },
+    {
+      "name": "Giles",
+      "actual_points": 0
+    },
+    {
+      "name": "Bogle",
+      "actual_points": 5
+    },
+    {
+      "name": "Tzolakis",
+      "actual_points": 6
+    },
+    {
+      "name": "Egan",
+      "actual_points": 1
+    }
+  ]
+}
