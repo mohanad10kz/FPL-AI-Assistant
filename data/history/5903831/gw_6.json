@@ -1,0 +1,93 @@
+{
+  "gameweek": 6,
+  "forced_transfers": [],
+  "still_pending": [],
+  "flagged_players": [
+    {
+      "name": "Giles",
+      "reason": "غائب عن إجماع أفضل 10 (1/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Muñoz",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Belloumi",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "B.Fernandes",
+      "reason": "غائب عن إجماع أفضل 10 (1/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Benitez",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Hughes",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    }
+  ],
+  "captain": "De Cuyper",
+  "vice_captain": "Haaland",
+  "chip_suggestion": {
+    "chip": "Triple Captain",
+    "recommended": true,
+    "reason": "الكابتن De Cuyper بفورم 8.5 ونقاط متوقعة 8.5 — ثلاثية الكابتن مجدية"
+  },
+  "transfers_cost": 0,
+  "bank_after": 0.2,
+  "free_transfers_remaining": 1,
+  "differential_suggestions": [
+    {
+      "id": 250,
+      "name": "Leno",
+      "position": "GK",
+      "price": 4.5,
+      "ownership": 3.7,
+      "form": 6.0,
+      "next_fixtures_difficulty": "سهلة",
+      "reason": "فورم ممتاز (6.0) + مباريات قادمة سهلة جداً + امتلاك منخفض جداً (3.7%)"
+    },
+    {
+      "id": 305,
+      "name": "Davis",
+      "position": "DEF",
+      "price": 4.0,
+      "ownership": 7.4,
+      "form": 8.0,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (8.0) + جدول مباريات واعد + امتلاك تفاضلي (7.4%)"
+    },
+    {
+      "id": 330,
+      "name": "Bogle",
+      "position": "DEF",
+      "price": 4.6,
+      "ownership": 7.9,
+      "form": 10.0,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (10.0) + امتلاك تفاضلي (7.9%)"
+    },
+    {
+      "id": 138,
+      "name": "Kostoulas",
+      "position": "FWD",
+      "price": 5.6,
+      "ownership": 6.6,
+      "form": 10.0,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (10.0) + امتلاك تفاضلي (6.6%)"
+    },
+    {
+      "id": 316,
+      "name": "Emersonn",
+      "position": "FWD",
+      "price": 5.5,
+      "ownership": 4.0,
+      "form": 7.0,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (7.0) + جدول مباريات واعد + امتلاك منخفض جداً (4.0%)"
+    }
+  ]
+}

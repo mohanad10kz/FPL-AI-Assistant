@@ -1,0 +1,108 @@
+{
+  "gameweek": 6,
+  "forced_transfers": [
+    {
+      "out": "Brobbey",
+      "in": "Wissa",
+      "reason": "injured — Hamstring injury - Expected back 25 Oct",
+      "cost_in_points": 0
+    }
+  ],
+  "still_pending": [],
+  "flagged_players": [
+    {
+      "name": "Guéhi",
+      "reason": "غائب عن إجماع أفضل 10 (1/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Bogle",
+      "reason": "غائب عن إجماع أفضل 10 (1/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Gabriel",
+      "reason": "غائب عن إجماع أفضل 10 (2/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Thomas",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "B.Fernandes",
+      "reason": "غائب عن إجماع أفضل 10 (1/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Cherki",
+      "reason": "غائب عن إجماع أفضل 10 (1/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Benitez",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Aaronson",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    }
+  ],
+  "captain": "Bogle",
+  "vice_captain": "Raya",
+  "chip_suggestion": {
+    "chip": "Triple Captain",
+    "recommended": true,
+    "reason": "الكابتن Bogle بفورم 10.0 ونقاط متوقعة 10.0 — ثلاثية الكابتن مجدية"
+  },
+  "transfers_cost": 0,
+  "bank_after": 2.1,
+  "free_transfers_remaining": 0,
+  "differential_suggestions": [
+    {
+      "id": 250,
+      "name": "Leno",
+      "position": "GK",
+      "price": 4.5,
+      "ownership": 3.7,
+      "form": 6.0,
+      "next_fixtures_difficulty": "سهلة",
+      "reason": "فورم ممتاز (6.0) + مباريات قادمة سهلة جداً + امتلاك منخفض جداً (3.7%)"
+    },
+    {
+      "id": 305,
+      "name": "Davis",
+      "position": "DEF",
+      "price": 4.0,
+      "ownership": 7.4,
+      "form": 8.0,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (8.0) + جدول مباريات واعد + امتلاك تفاضلي (7.4%)"
+    },
+    {
+      "id": 286,
+      "name": "Belloumi",
+      "position": "MID",
+      "price": 5.1,
+      "ownership": 5.7,
+      "form": 8.5,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (8.5) + جدول مباريات واعد + امتلاك منخفض جداً (5.7%)"
+    },
+    {
+      "id": 138,
+      "name": "Kostoulas",
+      "position": "FWD",
+      "price": 5.6,
+      "ownership": 6.6,
+      "form": 10.0,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (10.0) + امتلاك تفاضلي (6.6%)"
+    },
+    {
+      "id": 316,
+      "name": "Emersonn",
+      "position": "FWD",
+      "price": 5.5,
+      "ownership": 4.0,
+      "form": 7.0,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (7.0) + جدول مباريات واعد + امتلاك منخفض جداً (4.0%)"
+    }
+  ]
+}
