@@ -1,0 +1,33 @@
+{
+  "gameweek": 6,
+  "evaluated_at": "2026-10-13T18:56:16.858704+00:00",
+  "transfer_evaluations": [],
+  "captain_evaluation": {
+    "suggested": "De Cuyper",
+    "actual_points": 15,
+    "best_possible_points": 15,
+    "gap": 0
+  },
+  "differential_evaluations": [
+    {
+      "name": "Leno",
+      "actual_points": 2
+    },
+    {
+      "name": "Davis",
+      "actual_points": 1
+    },
+    {
+      "name": "Bogle",
+      "actual_points": 1
+    },
+    {
+      "name": "Kostoulas",
+      "actual_points": 1
+    },
+    {
+      "name": "Emersonn",
+      "actual_points": 2
+    }
+  ]
+}

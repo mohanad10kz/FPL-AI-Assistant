@@ -1,0 +1,40 @@
+{
+  "gameweek": 6,
+  "evaluated_at": "2026-10-13T18:56:15.808066+00:00",
+  "transfer_evaluations": [
+    {
+      "out": "Brobbey",
+      "in": "Wissa",
+      "followed_by_user": false,
+      "points_gained_if_followed": 2
+    }
+  ],
+  "captain_evaluation": {
+    "suggested": "Bogle",
+    "actual_points": 1,
+    "best_possible_points": 12,
+    "gap": 11
+  },
+  "differential_evaluations": [
+    {
+      "name": "Leno",
+      "actual_points": 2
+    },
+    {
+      "name": "Davis",
+      "actual_points": 1
+    },
+    {
+      "name": "Belloumi",
+      "actual_points": 6
+    },
+    {
+      "name": "Kostoulas",
+      "actual_points": 1
+    },
+    {
+      "name": "Emersonn",
+      "actual_points": 2
+    }
+  ]
+}
