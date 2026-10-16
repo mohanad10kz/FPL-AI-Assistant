@@ -1,0 +1,105 @@
+{
+  "gameweek": 7,
+  "forced_transfers": [],
+  "still_pending": [],
+  "flagged_players": [
+    {
+      "name": "Guéhi",
+      "reason": "غائب عن إجماع أفضل 10 (1/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Gabriel",
+      "reason": "غائب عن إجماع أفضل 10 (1/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Thomas",
+      "reason": "غائب عن إجماع أفضل 10 (1/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Bogle",
+      "reason": "غائب عن إجماع أفضل 10 (1/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "B.Fernandes",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Cherki",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Kostoulas",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Benitez",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Aaronson",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    }
+  ],
+  "captain": "João Pedro",
+  "vice_captain": "Rogers",
+  "chip_suggestion": {
+    "chip": "Free Hit",
+    "recommended": false,
+    "reason": "Free Hit متاح لكن قراره يُترك لك — يُستخدم أمثلياً بالجولات المضاعفة/الملغاة"
+  },
+  "transfers_cost": 0,
+  "bank_after": 2.2,
+  "free_transfers_remaining": 1,
+  "differential_suggestions": [
+    {
+      "id": 552,
+      "name": "Brobbey",
+      "position": "FWD",
+      "price": 5.7,
+      "ownership": 5.2,
+      "form": 8.5,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (8.5) + جدول مباريات واعد + امتلاك منخفض جداً (5.2%)"
+    },
+    {
+      "id": 45,
+      "name": "McGinn",
+      "position": "MID",
+      "price": 5.4,
+      "ownership": 2.7,
+      "form": 8.0,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (8.0) + جدول مباريات واعد + امتلاك منخفض جداً (2.7%)"
+    },
+    {
+      "id": 112,
+      "name": "Van Hecke",
+      "position": "DEF",
+      "price": 4.9,
+      "ownership": 6.5,
+      "form": 4.5,
+      "next_fixtures_difficulty": "سهلة",
+      "reason": "فورم تصاعدي (4.5) + مباريات قادمة سهلة جداً + امتلاك تفاضلي (6.5%)"
+    },
+    {
+      "id": 304,
+      "name": "O'Shea",
+      "position": "DEF",
+      "price": 4.0,
+      "ownership": 2.6,
+      "form": 6.5,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (6.5) + جدول مباريات واعد + امتلاك منخفض جداً (2.6%)"
+    },
+    {
+      "id": 87,
+      "name": "Ajer",
+      "position": "DEF",
+      "price": 4.5,
+      "ownership": 3.8,
+      "form": 6.5,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (6.5) + جدول مباريات واعد + امتلاك منخفض جداً (3.8%)"
+    }
+  ]
+}
