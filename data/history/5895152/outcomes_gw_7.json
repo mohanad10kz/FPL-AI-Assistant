@@ -1,0 +1,33 @@
+{
+  "gameweek": 7,
+  "evaluated_at": "2026-10-20T16:25:30.284065+00:00",
+  "transfer_evaluations": [],
+  "captain_evaluation": {
+    "suggested": "João Pedro",
+    "actual_points": 2,
+    "best_possible_points": 13,
+    "gap": 11
+  },
+  "differential_evaluations": [
+    {
+      "name": "Brobbey",
+      "actual_points": 0
+    },
+    {
+      "name": "McGinn",
+      "actual_points": 1
+    },
+    {
+      "name": "Van Hecke",
+      "actual_points": 4
+    },
+    {
+      "name": "O'Shea",
+      "actual_points": 3
+    },
+    {
+      "name": "Ajer",
+      "actual_points": 3
+    }
+  ]
+}
