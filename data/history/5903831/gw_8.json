@@ -1,0 +1,92 @@
+{
+  "gameweek": 8,
+  "forced_transfers": [
+    {
+      "out": "Manzambi",
+      "in": "Cherki",
+      "reason": "غائب عن إجماع أفضل 10 (1 فقط) + حالة: doubtful",
+      "cost_in_points": 0
+    }
+  ],
+  "still_pending": [],
+  "flagged_players": [
+    {
+      "name": "Belloumi",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Benitez",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Giles",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Hughes",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    }
+  ],
+  "captain": "De Cuyper",
+  "vice_captain": "Haaland",
+  "chip_suggestion": {
+    "chip": "Triple Captain",
+    "recommended": true,
+    "reason": "الكابتن De Cuyper بفورم 10.5 ونقاط متوقعة 10.5 — ثلاثية الكابتن مجدية"
+  },
+  "transfers_cost": 0,
+  "bank_after": 7.3,
+  "free_transfers_remaining": 0,
+  "differential_suggestions": [
+    {
+      "id": 304,
+      "name": "O'Shea",
+      "position": "DEF",
+      "price": 4.0,
+      "ownership": 2.8,
+      "form": 7.0,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (7.0) + جدول مباريات واعد + امتلاك منخفض جداً (2.8%)"
+    },
+    {
+      "id": 79,
+      "name": "Evanilson",
+      "position": "FWD",
+      "price": 6.1,
+      "ownership": 5.6,
+      "form": 9.5,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (9.5) + جدول مباريات واعد + امتلاك منخفض جداً (5.6%)"
+    },
+    {
+      "id": 175,
+      "name": "van Ewijk",
+      "position": "DEF",
+      "price": 3.9,
+      "ownership": 7.4,
+      "form": 3.5,
+      "next_fixtures_difficulty": "سهلة",
+      "reason": "فورم تصاعدي (3.5) + مباريات قادمة سهلة جداً + امتلاك تفاضلي (7.4%)"
+    },
+    {
+      "id": 173,
+      "name": "Thomas",
+      "position": "DEF",
+      "price": 4.0,
+      "ownership": 9.7,
+      "form": 3.5,
+      "next_fixtures_difficulty": "سهلة",
+      "reason": "فورم تصاعدي (3.5) + مباريات قادمة سهلة جداً + امتلاك تفاضلي (9.7%)"
+    },
+    {
+      "id": 332,
+      "name": "Justin",
+      "position": "DEF",
+      "price": 4.5,
+      "ownership": 2.2,
+      "form": 4.0,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم تصاعدي (4.0) + جدول مباريات واعد + امتلاك منخفض جداً (2.2%)"
+    }
+  ]
+}
