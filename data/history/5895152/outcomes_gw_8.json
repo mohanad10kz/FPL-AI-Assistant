@@ -1,0 +1,40 @@
+{
+  "gameweek": 8,
+  "evaluated_at": "2026-10-26T18:18:57.550173+00:00",
+  "transfer_evaluations": [
+    {
+      "out": "Manzambi",
+      "in": "Belloumi",
+      "followed_by_user": false,
+      "points_gained_if_followed": 3
+    }
+  ],
+  "captain_evaluation": {
+    "suggested": "Haaland",
+    "actual_points": 8,
+    "best_possible_points": 8,
+    "gap": 0
+  },
+  "differential_evaluations": [
+    {
+      "name": "O'Shea",
+      "actual_points": 2
+    },
+    {
+      "name": "Evanilson",
+      "actual_points": 6
+    },
+    {
+      "name": "van Ewijk",
+      "actual_points": 2
+    },
+    {
+      "name": "Justin",
+      "actual_points": 6
+    },
+    {
+      "name": "McGinn",
+      "actual_points": 6
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "gameweek": 8,
+  "evaluated_at": "2026-10-26T18:18:59.982530+00:00",
+  "transfer_evaluations": [
+    {
+      "out": "Manzambi",
+      "in": "Cherki",
+      "followed_by_user": false,
+      "points_gained_if_followed": -1
+    }
+  ],
+  "captain_evaluation": {
+    "suggested": "De Cuyper",
+    "actual_points": 1,
+    "best_possible_points": 14,
+    "gap": 13
+  },
+  "differential_evaluations": [
+    {
+      "name": "O'Shea",
+      "actual_points": 2
+    },
+    {
+      "name": "Evanilson",
+      "actual_points": 6
+    },
+    {
+      "name": "van Ewijk",
+      "actual_points": 2
+    },
+    {
+      "name": "Thomas",
+      "actual_points": 1
+    },
+    {
+      "name": "Justin",
+      "actual_points": 6
+    }
+  ]
+}
