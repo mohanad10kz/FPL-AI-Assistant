@@ -1,0 +1,105 @@
+{
+  "gameweek": 10,
+  "forced_transfers": [],
+  "still_pending": [],
+  "flagged_players": [
+    {
+      "name": "Kinsky",
+      "reason": "غائب عن إجماع أفضل 10 (2/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Van de Ven",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Ajayi",
+      "reason": "غائب عن إجماع أفضل 10 (1/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Egan",
+      "reason": "غائب عن إجماع أفضل 10 (1/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Evanilson",
+      "reason": "غائب عن إجماع أفضل 10 (2/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Trafford",
+      "reason": "غائب عن إجماع أفضل 10 (1/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Belloumi",
+      "reason": "غائب عن إجماع أفضل 10 (1/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Barnes",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Hall",
+      "reason": "غائب عن إجماع أفضل 10 (1/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    }
+  ],
+  "captain": "Haaland",
+  "vice_captain": "N.Jackson",
+  "chip_suggestion": {
+    "chip": null,
+    "recommended": false,
+    "reason": "لا توجد شروط مناسبة لاقتراح رقاقة بهذه الجولة"
+  },
+  "transfers_cost": 0,
+  "bank_after": 5.4,
+  "free_transfers_remaining": 1,
+  "differential_suggestions": [
+    {
+      "id": 502,
+      "name": "Robertson",
+      "position": "DEF",
+      "price": 4.3,
+      "ownership": 2.5,
+      "form": 4.8,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم تصاعدي (4.8) + جدول مباريات واعد + امتلاك منخفض جداً (2.5%)"
+    },
+    {
+      "id": 57,
+      "name": "Petrović",
+      "position": "GK",
+      "price": 4.5,
+      "ownership": 3.1,
+      "form": 4.8,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم تصاعدي (4.8) + جدول مباريات واعد + امتلاك منخفض جداً (3.1%)"
+    },
+    {
+      "id": 45,
+      "name": "McGinn",
+      "position": "MID",
+      "price": 5.4,
+      "ownership": 3.3,
+      "form": 4.2,
+      "next_fixtures_difficulty": "سهلة",
+      "reason": "فورم تصاعدي (4.2) + مباريات قادمة سهلة جداً + امتلاك منخفض جداً (3.3%)"
+    },
+    {
+      "id": 455,
+      "name": "Tonali",
+      "position": "MID",
+      "price": 5.3,
+      "ownership": 2.0,
+      "form": 4.8,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم تصاعدي (4.8) + جدول مباريات واعد + امتلاك منخفض جداً (2.0%)"
+    },
+    {
+      "id": 304,
+      "name": "O'Shea",
+      "position": "DEF",
+      "price": 4.0,
+      "ownership": 2.8,
+      "form": 4.2,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم تصاعدي (4.2) + جدول مباريات واعد + امتلاك منخفض جداً (2.8%)"
+    }
+  ]
+}

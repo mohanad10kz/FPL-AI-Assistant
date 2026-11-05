@@ -1,0 +1,109 @@
+{
+  "gameweek": 10,
+  "forced_transfers": [
+    {
+      "out": "João Pedro",
+      "in": "N.Jackson",
+      "reason": "injured — Thigh injury - Unknown return date",
+      "cost_in_points": 0
+    }
+  ],
+  "still_pending": [
+    {
+      "out": "Thomas",
+      "reason": "غائب عن إجماع أفضل 10 (1 فقط) + حالة: doubtful"
+    }
+  ],
+  "flagged_players": [
+    {
+      "name": "Gvardiol",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Bogle",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Cherki",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Dewsbury-Hall",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Kostoulas",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Verbruggen",
+      "reason": "غائب عن إجماع أفضل 10 (2/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Tarkowski",
+      "reason": "غائب عن إجماع أفضل 10 (1/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    }
+  ],
+  "captain": "Haaland",
+  "vice_captain": "Rogers",
+  "chip_suggestion": {
+    "chip": "Free Hit",
+    "recommended": false,
+    "reason": "Free Hit متاح لكن قراره يُترك لك — يُستخدم أمثلياً بالجولات المضاعفة/الملغاة"
+  },
+  "transfers_cost": 0,
+  "bank_after": 0.0,
+  "free_transfers_remaining": 0,
+  "differential_suggestions": [
+    {
+      "id": 502,
+      "name": "Robertson",
+      "position": "DEF",
+      "price": 4.3,
+      "ownership": 2.5,
+      "form": 4.8,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم تصاعدي (4.8) + جدول مباريات واعد + امتلاك منخفض جداً (2.5%)"
+    },
+    {
+      "id": 57,
+      "name": "Petrović",
+      "position": "GK",
+      "price": 4.5,
+      "ownership": 3.1,
+      "form": 4.8,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم تصاعدي (4.8) + جدول مباريات واعد + امتلاك منخفض جداً (3.1%)"
+    },
+    {
+      "id": 45,
+      "name": "McGinn",
+      "position": "MID",
+      "price": 5.4,
+      "ownership": 3.3,
+      "form": 4.2,
+      "next_fixtures_difficulty": "سهلة",
+      "reason": "فورم تصاعدي (4.2) + مباريات قادمة سهلة جداً + امتلاك منخفض جداً (3.3%)"
+    },
+    {
+      "id": 455,
+      "name": "Tonali",
+      "position": "MID",
+      "price": 5.3,
+      "ownership": 2.0,
+      "form": 4.8,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم تصاعدي (4.8) + جدول مباريات واعد + امتلاك منخفض جداً (2.0%)"
+    },
+    {
+      "id": 304,
+      "name": "O'Shea",
+      "position": "DEF",
+      "price": 4.0,
+      "ownership": 2.8,
+      "form": 4.2,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم تصاعدي (4.2) + جدول مباريات واعد + امتلاك منخفض جداً (2.8%)"
+    }
+  ]
+}
