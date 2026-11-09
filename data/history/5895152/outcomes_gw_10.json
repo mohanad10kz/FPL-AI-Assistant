@@ -1,0 +1,40 @@
+{
+  "gameweek": 10,
+  "evaluated_at": "2026-11-09T21:58:15.026606+00:00",
+  "transfer_evaluations": [
+    {
+      "out": "João Pedro",
+      "in": "N.Jackson",
+      "followed_by_user": false,
+      "points_gained_if_followed": 11
+    }
+  ],
+  "captain_evaluation": {
+    "suggested": "Haaland",
+    "actual_points": 2,
+    "best_possible_points": 10,
+    "gap": 8
+  },
+  "differential_evaluations": [
+    {
+      "name": "Robertson",
+      "actual_points": 2
+    },
+    {
+      "name": "Petrović",
+      "actual_points": 2
+    },
+    {
+      "name": "McGinn",
+      "actual_points": 10
+    },
+    {
+      "name": "Tonali",
+      "actual_points": 1
+    },
+    {
+      "name": "O'Shea",
+      "actual_points": 1
+    }
+  ]
+}
