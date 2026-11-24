@@ -1,0 +1,33 @@
+{
+  "gameweek": 11,
+  "evaluated_at": "2026-11-24T21:57:30.424701+00:00",
+  "transfer_evaluations": [],
+  "captain_evaluation": {
+    "suggested": "Konsa",
+    "actual_points": 1,
+    "best_possible_points": 8,
+    "gap": 7
+  },
+  "differential_evaluations": [
+    {
+      "name": "McGinn",
+      "actual_points": 1
+    },
+    {
+      "name": "Robertson",
+      "actual_points": 1
+    },
+    {
+      "name": "E.Le Fée",
+      "actual_points": 3
+    },
+    {
+      "name": "O'Nien",
+      "actual_points": 6
+    },
+    {
+      "name": "Ayari",
+      "actual_points": 3
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "gameweek": 11,
+  "evaluated_at": "2026-11-24T21:57:28.389093+00:00",
+  "transfer_evaluations": [
+    {
+      "out": "João Pedro",
+      "in": "N.Jackson",
+      "followed_by_user": false,
+      "points_gained_if_followed": 2
+    },
+    {
+      "out": "Thomas",
+      "in": "Diop",
+      "followed_by_user": false,
+      "points_gained_if_followed": -1
+    }
+  ],
+  "captain_evaluation": {
+    "suggested": "Raya",
+    "actual_points": 1,
+    "best_possible_points": 5,
+    "gap": 4
+  },
+  "differential_evaluations": [
+    {
+      "name": "McGinn",
+      "actual_points": 1
+    },
+    {
+      "name": "Robertson",
+      "actual_points": 1
+    },
+    {
+      "name": "E.Le Fée",
+      "actual_points": 3
+    },
+    {
+      "name": "O'Nien",
+      "actual_points": 6
+    },
+    {
+      "name": "Ayari",
+      "actual_points": 3
+    }
+  ]
+}
