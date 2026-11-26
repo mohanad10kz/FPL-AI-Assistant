@@ -1,0 +1,85 @@
+{
+  "gameweek": 12,
+  "forced_transfers": [],
+  "still_pending": [],
+  "flagged_players": [
+    {
+      "name": "Ndiaye",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Isak",
+      "reason": "غائب عن إجماع أفضل 10 (2/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Verbruggen",
+      "reason": "غائب عن إجماع أفضل 10 (1/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    },
+    {
+      "name": "Van de Ven",
+      "reason": "غائب عن إجماع أفضل 10 (0/10) لكن لا توجد شكوك إصابة رسمية — للمراجعة اليدوية فقط"
+    }
+  ],
+  "captain": "Van Hecke",
+  "vice_captain": "Konsa",
+  "chip_suggestion": {
+    "chip": "Triple Captain",
+    "recommended": true,
+    "reason": "الكابتن Van Hecke بفورم 8.3 ونقاط متوقعة 8.3 — ثلاثية الكابتن مجدية"
+  },
+  "transfers_cost": 0,
+  "bank_after": 2.0,
+  "free_transfers_remaining": 1,
+  "differential_suggestions": [
+    {
+      "id": 249,
+      "name": "Barry",
+      "position": "FWD",
+      "price": 5.7,
+      "ownership": 11.3,
+      "form": 9.0,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (9.0) + جدول مباريات واعد + امتلاك تفاضلي (11.3%)"
+    },
+    {
+      "id": 529,
+      "name": "Roefs",
+      "position": "GK",
+      "price": 4.8,
+      "ownership": 2.1,
+      "form": 7.0,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (7.0) + جدول مباريات واعد + امتلاك منخفض جداً (2.1%)"
+    },
+    {
+      "id": 542,
+      "name": "E.Le Fée",
+      "position": "MID",
+      "price": 5.7,
+      "ownership": 3.1,
+      "form": 7.3,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (7.3) + جدول مباريات واعد + امتلاك منخفض جداً (3.1%)"
+    },
+    {
+      "id": 295,
+      "name": "McBurnie",
+      "position": "FWD",
+      "price": 5.5,
+      "ownership": 2.1,
+      "form": 9.0,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (9.0) + امتلاك منخفض جداً (2.1%)"
+    },
+    {
+      "id": 129,
+      "name": "Ayari",
+      "position": "MID",
+      "price": 5.5,
+      "ownership": 2.4,
+      "form": 5.3,
+      "next_fixtures_difficulty": "متوسطة",
+      "reason": "فورم ممتاز (5.3) + جدول مباريات واعد + امتلاك منخفض جداً (2.4%)"
+    }
+  ]
+}
